@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione dei rappresentanti legali degli ENTI
+    API rese disponibili da IPA per la consultazione delle PEC delle UO
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,28 +24,29 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateLegaleFromCF/{codice_fiscale}:
+  /PECUO/{codice_unico_uo}:
     get:
-      description: consultazione di un reppresentate legale di un ENTE dato il codice fiscale
+      description: consultazione delle PEC delle UO
 
-      operationId: getRappresentateLegaleFromCF
+      operationId: getPECUO
 
       parameters:
-        - name: codice_fiscale
+        - name: codice_unico_uo
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice unico dell'UO
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
+            type: string
+            maxLength: 7
           example: 12345678901
             
       responses:
         '200':
-          description: JSON del rappresentate legale estratto
+          description: array JSON dei domicili digitali di una UO
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LegalRepresentative'
+                $ref: '#/components/schemas/PECs'
           
         '400':
           $ref: '#/components/responses/400'
@@ -59,43 +60,7 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
-  /rappresentateLegaleFromCodiceIPA/{codice_ipa}:
-    get:
-      description: consultazione di un reppresentate legale di un ENTE dato il codice ipa
 
-      operationId: getRappresentateLegaleFromCodiceIPA
-
-      parameters:
-        - name: codice_ipa
-          in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
-          required: true
-          schema:
-            $ref: '#/components/schemas/CodiceIPA'
-          example: agid
-            
-      responses:
-        '200':
-          description: JSON del rappresentate legale estratto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LegalRepresentative'
-          
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-        '503':
-          $ref: '#/components/responses/503'
-  
 components:
 
   responses:
@@ -143,41 +108,17 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
-    CodiceIPA:
-      description: codice ipa ENTE
+    DigitalAddress:
+      description: e-mail conforme a local-part@domain previsto da rfc5322
       type: string
-      maxLength: 100
+      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
 
-    LegalRepresentative:
-      description: Rappresentate Legale dell'ENTE
-      required:
-        - codice_fiscale_ente
-        - codice_ipa_ente
-        - name
-        - surname
-        - role
-        
-      type: object
-      properties:
-        codice_fiscale_ente:
-          description: codice fiscale dell'ENTE
-          $ref: '#/components/schemas/CodiceFiscaleEnte'
-        codice_ipa_ente:
-          description: codice IPA dell'ENTE
-          $ref: '#/components/schemas/CodiceIPA'
-        name:
-          description: nome del rappresentate legale dell'ENTE
-          type: string
-          maxLength: 50        
-        surname:
-          description: conome del rappresentate legale dell'ENTE
-          type: string
-          maxLength: 50        
-        role:
-          description: ruolo del rappresente legale dell'ENTE
-          type: string
-          maxLength: 100        
-
+    PECs:
+      description: array delle PEC      
+      type: array
+      items:
+        $ref: '#/components/schemas/DigitalAddress'
+    
     Error: 
       description: Modello di risposta in caso di errore     
       required:

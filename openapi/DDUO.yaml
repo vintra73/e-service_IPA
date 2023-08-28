@@ -37,7 +37,7 @@ paths:
           required: true
           schema:
             type: string
-            maxLength: 7
+            maxLength: 6
           example: 12345678901
             
       responses:

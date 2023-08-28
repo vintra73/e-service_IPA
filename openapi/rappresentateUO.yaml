@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli indirizzi degli ENTI
+    API rese disponibili da IPA per la consultazione dei rappresentanti degli ENTI
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,28 +24,29 @@ servers:
     description: Server URL
 
 paths:
-  /indirizzoFromCF/{codice_fiscale}:
+  /rappresentate/{codice_unico_uo}:
     get:
-      description: consultazione dell'indirizzo di un ENTE dato il codice fiscale
+      description: consultazione del reppresentate di una UO
 
-      operationId: getIndirizzoFromCF
+      operationId: getRappresentate
 
       parameters:
-        - name: codice_fiscale
+        - name: codice_unico_uo
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice unico dell'UO
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
+            type: string
+            maxLength: 6
           example: 12345678901
             
       responses:
         '200':
-          description: JSON dell'indirizzo estratto
+          description: JSON del rappresentate estratto
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Address'
+                $ref: '#/components/schemas/Representative'
           
         '400':
           $ref: '#/components/responses/400'
@@ -59,43 +60,7 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
-  /indirizzoFromCodiceIPA/{codice_ipa}:
-    get:
-      description: consultazione dell'indirizzo di un ENTE dato il codice ipa
-
-      operationId: getIndirizzoFromCodiceIPA
-
-      parameters:
-        - name: codice_ipa
-          in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
-          required: true
-          schema:
-            $ref: '#/components/schemas/CodiceIPA'
-          example: agid
-            
-      responses:
-        '200':
-          description: JSON dell'indirizzo estratto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Address'
-          
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-        '503':
-          $ref: '#/components/responses/503'
-  
+   
 components:
 
   responses:
@@ -143,40 +108,30 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
-    CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
-
-    Address:
-      description: Indirizzo dell'ENTE
-      required:  
-        - codice_istat_comune
-        - codice_catastale_comune
-        - CAP
-        - address
+    Representative:
+      description: Rappresentate dell'ENTE
+      required:
+        - name
+        - surname
+        - role
         
       type: object
       properties:        
-        codice_istat_comune:
-          description: codice istat del Comune della sede dell'ENTE
+        name:
+          description: nome del rappresentate dell'ENTE
           type: string
-          maxLength: 6        
-        codice_catastale_comune:
-          description: codice catastale del Comune della sede  dell'ENTE
+          maxLength: 50        
+        surname:
+          description: conome del rappresentate dell'ENTE
           type: string
-          maxLength: 4        
-        CAP:
-          description: CAP del Comune della sede dell'ENTE
+          maxLength: 50        
+        role:
+          description: ruolo del rappresente dell'ENTE
           type: string
-          pattern: ^([0-9]{5})$
-        address:
-          description: indirizzo della sede dell'ENTE
-          type: string
-          maxLength: 246 
+          maxLength: 100        
 
-    Error:  
-      description: Modello di risposta in caso di errore    
+    Error: 
+      description: Modello di risposta in caso di errore     
       required:
         - status
         - type
