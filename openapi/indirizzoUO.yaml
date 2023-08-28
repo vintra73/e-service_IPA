@@ -24,7 +24,7 @@ servers:
     description: Server URL
 
 paths:
-  /indirizzo/{codice_unico_uo}:
+  /indirizzoUO/{codice_unico_uo}:
     get:
       description: consultazione dell'indirizzo di una UO
 

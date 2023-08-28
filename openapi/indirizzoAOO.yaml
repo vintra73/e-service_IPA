@@ -24,7 +24,7 @@ servers:
     description: Server URL
 
 paths:
-  /indirizzo/{codice_unico_aoo}:
+  /indirizzoAOO/{codice_unico_aoo}:
     get:
       description: consultazione dell'indirizzo di una AOO
 

@@ -24,7 +24,7 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentate/{codice_unico_uo}:
+  /rappresentateUO/{codice_unico_uo}:
     get:
       description: consultazione del reppresentate di una UO
 

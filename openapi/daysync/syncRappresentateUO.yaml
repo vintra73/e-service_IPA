@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli ENTI
+    API rese disponibili da IPA per la consultazione dei rappresentanti degli ENTI
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,28 +24,29 @@ servers:
     description: Server URL
 
 paths:
-  /enteFromCF/{codice_fiscale}:
+  /rappresentate/{codice_unico_uo}:
     get:
-      description: consultazione di un ENTE dato il codice fiscale
+      description: consultazione del reppresentate di una UO
 
-      operationId: getEnteFromCF
+      operationId: getRappresentate
 
       parameters:
-        - name: codice_fiscale
+        - name: codice_unico_uo
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice unico dell'UO
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
+            type: string
+            maxLength: 6
           example: 12345678901
             
       responses:
         '200':
-          description: JSON dell'ENTE estratto
+          description: JSON del rappresentate estratto
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Ente'
+                $ref: '#/components/schemas/Representative'
           
         '400':
           $ref: '#/components/responses/400'
@@ -59,43 +60,7 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
-  /enteFromCodiceIPA/{codice_ipa}:
-    get:
-      description: consultazione di un ENTE dato il codice ipa
-
-      operationId: getEnteFromCodiceIPA
-
-      parameters:
-        - name: codice_ipa
-          in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
-          required: true
-          schema:
-            $ref: '#/components/schemas/CodiceIPA'
-          example: agid
-            
-      responses:
-        '200':
-          description: JSON dell'ENTE estratto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Ente'
-          
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-        '503':
-          $ref: '#/components/responses/503'
-  
+   
 components:
 
   responses:
@@ -143,50 +108,27 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
-    DigitalAddress:
-      description: e-mail conforme a local-part@domain previsto da rfc5322
-      type: string
-      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
-
-    CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
-
-    Ente:
-      description: ENTE
+    Representative:
+      description: Rappresentate dell'ENTE
       required:
-        - codice_fiscale_ente
-        - codice_ipa_ente
-        - denomination
-        - category_type
-        - category_code
-        - category_name       
-      type: object
-      properties:
-        codice_fiscale_ente:
-          description: codice fiscale dell'ENTE
-          $ref: '#/components/schemas/CodiceFiscaleEnte'
-        codice_ipa_ente:
-          description: codice IPA dell'ENTE
-          $ref: '#/components/schemas/CodiceIPA'
-        denomination:
-          description: denominazione dell'ENTE
-          type: string
-          maxLength: 1000
-        category_type:
-          description: tipologia della categoria dell'ENTE
-          type: string
-          maxLength: 140
-        category_code:
-          description: codice della categoria dell'ENTE
-          type: string
-          maxLength: 5
-        category_name:
-          description: nome della categoria dell'ENTE
-          type: string
-          maxLength: 140
+        - name
+        - surname
+        - role
         
+      type: object
+      properties:        
+        name:
+          description: nome del rappresentate dell'ENTE
+          type: string
+          maxLength: 50        
+        surname:
+          description: conome del rappresentate dell'ENTE
+          type: string
+          maxLength: 50        
+        role:
+          description: ruolo del rappresente dell'ENTE
+          type: string
+          maxLength: 100        
 
     Error: 
       description: Modello di risposta in caso di errore     

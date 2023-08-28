@@ -24,7 +24,7 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateFromCF/{codice_fiscale}:
+  /rappresentateEnteFromCF/{codice_fiscale}:
     get:
       description: consultazione del reppresentate di un ENTE dato il codice fiscale
 
@@ -60,7 +60,7 @@ paths:
         '503':
           $ref: '#/components/responses/503'
   
-  /rappresentateFromCodiceIPA/{codice_ipa}:
+  /rappresentateEnteFromCodiceIPA/{codice_ipa}:
     get:
       description: consultazione del reppresentate di un ENTE dato il codice ipa
 
