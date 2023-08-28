@@ -1,11 +1,9 @@
-TODO
-
 openapi: 3.0.1
 info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione dei rappresentanti degli ENTI
+    API rese disponibili da IPA per l'aggiornamento dei rappresentanti delle AOO
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -26,29 +24,19 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentate/{codice_unico_aoo}:
+  /rappresentatiAOOs:
     get:
-      description: consultazione del reppresentate di una AOO
+      description: consultazione del reppresentate delle AOO
 
-      operationId: getRappresentate
-
-      parameters:
-        - name: codice_unico_aoo
-          in: path
-          description: Codice unico dell'AOO
-          required: true
-          schema:
-            type: string
-            maxLength: 7
-          example: 12345678901
+      operationId: getRappresentateAOO
             
       responses:
         '200':
-          description: JSON del rappresentate estratto
+          description: elenco JSON dei rappresentati
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Representative'
+                $ref: '#/components/schemas/Representatives'
           
         '400':
           $ref: '#/components/responses/400'
@@ -110,15 +98,27 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
+    Representatives:
+      description: elenco di rappresentati 
+      type: array
+      items:
+        $ref: '#/components/schemas/Representative'
+
     Representative:
       description: Rappresentate dell'ENTE
       required:
+        - codice_unico_aoo
         - name
         - surname
         - role
+        - operation
         
       type: object
       properties:        
+        codice_unico_aoo:
+          description: codice univoco dell'AOO
+          type: string
+          maxLength: 7
         name:
           description: nome del rappresentate dell'ENTE
           type: string
@@ -130,7 +130,14 @@ components:
         role:
           description: ruolo del rappresente dell'ENTE
           type: string
-          maxLength: 100        
+          maxLength: 100   
+        operation:
+          type: string
+          maxLength: 1
+          enum:
+            - C
+            - U
+            - D      
 
     Error: 
       description: Modello di risposta in caso di errore     

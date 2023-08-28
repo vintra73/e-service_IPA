@@ -1,11 +1,9 @@
-TODO
-
 openapi: 3.0.1
 info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione dei rappresentanti degli ENTI
+    API rese disponibili da IPA per l'aggiornamento dei rappresentanti degli Enti
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -26,20 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateFromCF/{codice_fiscale}:
+  /rappresentatiEnti:
     get:
-      description: consultazione del reppresentate di un ENTE dato il codice fiscale
+      description: consultazione del reppresentate degli Enti
 
-      operationId: getRappresentateFromCF
-
-      parameters:
-        - name: codice_fiscale
-          in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
-          required: true
-          schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
+      operationId: getRappresentate
             
       responses:
         '200':
@@ -47,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Representative'
+                $ref: '#/components/schemas/Representatives'
           
         '400':
           $ref: '#/components/responses/400'
@@ -61,43 +50,7 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
-  /rappresentateFromCodiceIPA/{codice_ipa}:
-    get:
-      description: consultazione del reppresentate di un ENTE dato il codice ipa
-
-      operationId: getRappresentateFromCodiceIPA
-
-      parameters:
-        - name: codice_ipa
-          in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
-          required: true
-          schema:
-            $ref: '#/components/schemas/CodiceIPA'
-          example: agid
-            
-      responses:
-        '200':
-          description: JSON del rappresentate estratto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Representative'
-          
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-        '503':
-          $ref: '#/components/responses/503'
-  
+   
 components:
 
   responses:
@@ -150,15 +103,28 @@ components:
       type: string
       maxLength: 100
 
+    Representatives:
+      description: elenco di rappresentati 
+      type: array
+      items:
+        $ref: '#/components/schemas/Representative'
+
     Representative:
       description: Rappresentate dell'ENTE
       required:
+        - codice_fiscale_ente
+        - codice_ipa_ente
         - name
         - surname
         - role
+        - operation
         
       type: object
       properties:        
+        codice_fiscale_ente: 
+          $ref: '#/components/schemas/CodiceFiscaleEnte'     
+        codice_ipa_ente: 
+          $ref: '#/components/schemas/CodiceIPA'
         name:
           description: nome del rappresentate dell'ENTE
           type: string
@@ -170,7 +136,14 @@ components:
         role:
           description: ruolo del rappresente dell'ENTE
           type: string
-          maxLength: 100        
+          maxLength: 100   
+        operation:
+          type: string
+          maxLength: 1
+          enum:
+            - C
+            - U
+            - D      
 
     Error: 
       description: Modello di risposta in caso di errore     
