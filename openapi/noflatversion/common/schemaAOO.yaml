@@ -1,0 +1,36 @@
+description: AOO di un ENTE
+type: object
+
+required:
+  - codice_fiscale_ente
+  - codice_ipa_ente
+  - codice_uni_aoo
+  - descrizione_aoo
+  - data_istituzione
+  - data_aggiornamento
+  
+properties:
+  codice_fiscale_ente:    
+    $ref: './schemaCodiceFiscaleEnte.yaml'
+  codice_ipa_ente:    
+    $ref: './schemaCodiceIPA.yaml'
+  codice_uni_aoo:
+    $ref: './schemaCodiceUniAOO.yaml'
+  codice_aoo:
+    type: string
+    maxLength: 100
+  descrizione_aoo:
+    type: string
+    maxLength: 1000
+  protocollo_informatico:
+    type: boolean
+  URL_protocollo_informatico:
+    type: string
+    maxLength: 200
+    pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
+  data_istituzione:
+    type: string
+    format: date 
+  data_aggiornamento:
+    type: string
+    format: date

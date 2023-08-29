@@ -1,0 +1,3 @@
+description: codice IPA dell'ENTE
+type: string
+maxLength: 100

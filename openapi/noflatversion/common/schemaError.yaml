@@ -1,0 +1,35 @@
+description: Modello di risposta in caso di errore     
+
+type: object
+
+required:
+  - status
+  - typology      
+
+properties:
+  status:
+    type: string
+    description: Codice di errore
+    example: <HTTP_CODE>
+    enum:
+      - '400'
+      - '401'
+      - '403'
+      - '404'
+      - '500'
+      - '503'
+  typology:
+    type: string
+    description: Tipologia di errore
+    example: <HTTP_STATUS>
+    enum:
+      - BAD_REQUEST
+      - UNAUTHORIZED
+      - FORBIDDEN
+      - NOT_FOUND
+      - INTERNAL_SERVER_ERROR
+      - SERVICE_UNAVAILABLE
+  detail:
+    type: string
+    description: Descrizione di dettaglio dello specifico problema verificatosi
+    example: <detail_error>

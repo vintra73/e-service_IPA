@@ -1,0 +1,3 @@
+description: Codice unico dell'AOO
+type: string
+maxLength: 7

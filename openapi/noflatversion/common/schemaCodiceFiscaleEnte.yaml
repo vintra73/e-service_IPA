@@ -1,0 +1,4 @@
+description: Codice Fiscale dell'ENTE      
+type: string
+pattern: ^([0-9]{11})$
+example: 12345678901

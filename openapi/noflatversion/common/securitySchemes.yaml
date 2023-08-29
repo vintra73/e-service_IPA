@@ -1,0 +1,6 @@
+bearerAuth:
+  scheme: bearer
+  bearerFormat: JWT
+  type: http
+  description: |-
+    Implementazione conforme ad RFC8725
