@@ -180,7 +180,7 @@ components:
           format: date
 
     CodiceIPA:
-      description: codice ipa ENTE
+      description: codice IPA dell'ENTE
       type: string
       maxLength: 100
 
@@ -190,12 +190,15 @@ components:
       items:
         $ref: '#/components/schemas/UO'
     
-    Error: 
+    Error:
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -208,7 +211,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -223,15 +226,15 @@ components:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
           example: <detail_error>
-      
-    
+
   securitySchemes:
     bearerAuth:
       scheme: bearer
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725.
+        Implementazione conforme ad RFC8725
+    
 
 security:
   - bearerAuth: []

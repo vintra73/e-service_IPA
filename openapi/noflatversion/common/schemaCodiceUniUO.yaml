@@ -1,0 +1,3 @@
+description: Codice unico dell'UO
+type: string
+maxLength: 6

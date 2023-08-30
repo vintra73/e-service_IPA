@@ -1,0 +1,20 @@
+description: Rappresentate dell'ENTE
+required:
+  - name
+  - surname
+  - role
+  
+type: object
+properties:        
+  name:
+    description: nome del rappresentate dell'ENTE
+    type: string
+    maxLength: 50        
+  surname:
+    description: conome del rappresentate dell'ENTE
+    type: string
+    maxLength: 50        
+  role:
+    description: ruolo del rappresente dell'ENTE
+    type: string
+    maxLength: 100
