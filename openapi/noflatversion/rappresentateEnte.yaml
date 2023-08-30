@@ -99,119 +99,23 @@ paths:
 components:
 
   responses:
-    '400':
-      description: BAD_REQUEST
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '401':
-      description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '404':
-      description: NOT_FOUND
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '500':
-      description: INTERNAL_SERVER_ERROR
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '503':
-      description: SERVICE_UNAVAILABLE
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    $ref: './common/response.yaml'
 
   schemas:
     CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
-      type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
+      $ref: './common/schemaCodiceFiscaleEnte.yaml'
 
     CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
+      $ref: './common/schemaCodiceIPA.yaml'
 
     Representative:
-      description: Rappresentate dell'ENTE
-      required:
-        - name
-        - surname
-        - role
-        
-      type: object
-      properties:        
-        name:
-          description: nome del rappresentate dell'ENTE
-          type: string
-          maxLength: 50        
-        surname:
-          description: conome del rappresentate dell'ENTE
-          type: string
-          maxLength: 50        
-        role:
-          description: ruolo del rappresente dell'ENTE
-          type: string
-          maxLength: 100        
+      $ref: './common/schemaRepresentative.yaml'      
 
-    Error: 
-      description: Modello di risposta in caso di errore     
-      required:
-        - status
-        - type
-      type: object
-      properties:
-        status:
-          type: string
-          description: Codice di errore
-          example: <HTTP_CODE>
-          enum:
-            - '400'
-            - '401'
-            - '403'
-            - '404'
-            - '500'
-            - '503'
-        type:
-          type: string
-          description: Tipologia di errore
-          example: <HTTP_STATUS>
-          enum:
-            - BAD_REQUEST
-            - UNAUTHORIZED
-            - FORBIDDEN
-            - NOT_FOUND
-            - INTERNAL_SERVER_ERROR
-            - SERVICE_UNAVAILABLE
-        detail:
-          type: string
-          description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
-    
+    Error:
+      $ref: './common/schemaError.yaml'
+
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+    $ref: './common/securitySchemes.yaml'
 
 security:
   - bearerAuth: []
