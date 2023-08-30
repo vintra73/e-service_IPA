@@ -62,4 +62,3 @@ for path in paths:
 
 #remove common folder
 shutil.rmtree(rootFlatted+'/common')
-
