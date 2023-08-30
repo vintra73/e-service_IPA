@@ -147,9 +147,9 @@ components:
       description: e-mail conforme a local-part@domain previsto da rfc5322
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
-
+      
     CodiceIPA:
-      description: codice ipa ENTE
+      description: codice IPA dell'ENTE
       type: string
       maxLength: 100
 
@@ -187,13 +187,15 @@ components:
           type: string
           maxLength: 140
         
-
-    Error: 
+    Error:
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -206,7 +208,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -220,8 +222,7 @@ components:
         detail:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
+          example: <detail_error>      
     
   securitySchemes:
     bearerAuth:
@@ -229,7 +230,8 @@ components:
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725.
+        Implementazione conforme ad RFC8725
+    
 
 security:
   - bearerAuth: []
