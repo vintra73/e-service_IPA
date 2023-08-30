@@ -134,7 +134,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Error'     
 
   schemas:
     CodiceFiscaleEnte:
@@ -143,9 +143,15 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
+
     AOO:
       description: AOO di un ENTE
       type: object
+      
       required:
         - codice_fiscale_ente
         - codice_ipa_ente
@@ -155,42 +161,53 @@ components:
         - data_aggiornamento
         
       properties:
-        codice_fiscale_ente:
-          description: codice fiscale dell'ENTE
-          $ref: '#/components/schemas/CodiceFiscaleEnte'
-        codice_ipa_ente:
+        codice_fiscale_ente:    
+          description: Codice Fiscale dell'ENTE      
+          type: string
+          pattern: ^([0-9]{11})$
+          example: 12345678901
+        codice_ipa_ente:    
           description: codice IPA dell'ENTE
-          $ref: '#/components/schemas/CodiceIPA'
+          type: string
+          maxLength: 100
         codice_uni_aoo:
+          description: Codice unico dell'AOO
           type: string
           maxLength: 7
+        codice_aoo:
+          type: string
+          maxLength: 100
         descrizione_aoo:
           type: string
           maxLength: 1000
+        protocollo_informatico:
+          type: boolean
+        URL_protocollo_informatico:
+          type: string
+          maxLength: 200
+          pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
         data_istituzione:
           type: string
           format: date 
         data_aggiornamento:
           type: string
           format: date
-
-    CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
-
+    
     AOOs:
       description: array delle AOO      
       type: array
       items:
         $ref: '#/components/schemas/AOO'
     
-    Error: 
+    Error:
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -203,7 +220,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -218,15 +235,15 @@ components:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
           example: <detail_error>
-      
-    
+
   securitySchemes:
     bearerAuth:
       scheme: bearer
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725.
+        Implementazione conforme ad RFC8725
+    
 
 security:
   - bearerAuth: []
