@@ -110,38 +110,41 @@ components:
       example: 12345678901
 
     Address:
-      description: Indirizzo della AOO
-      required:       
-        - codice_istat_comune
-        - codice_catastale_comune
-        - CAP
-        - address
-        
-      type: object
-      properties:        
-        codice_istat_comune:
-          description: codice istat del Comune della sede dell'ENTE
-          type: string
-          maxLength: 6        
-        codice_catastale_comune:
-          description: codice catastale del Comune della sede  dell'ENTE
-          type: string
-          maxLength: 4        
-        CAP:
-          description: CAP del Comune della sede dell'ENTE
-          type: string
-          pattern: ^([0-9]{5})$
-        address:
-          description: indirizzo della sede dell'ENTE
-          type: string
-          maxLength: 246 
+       description: Indirizzo della AOO
+       required:       
+         - codice_istat_comune
+         - codice_catastale_comune
+         - CAP
+         - address
+         
+       type: object
+       properties:        
+         codice_istat_comune:
+           description: codice istat del Comune della sede dell'ENTE
+           type: string
+           maxLength: 6        
+         codice_catastale_comune:
+           description: codice catastale del Comune della sede  dell'ENTE
+           type: string
+           maxLength: 4        
+         CAP:
+           description: CAP del Comune della sede dell'ENTE
+           type: string
+           pattern: ^([0-9]{5})$
+         address:
+           description: indirizzo della sede dell'ENTE
+           type: string
+           maxLength: 246
 
-    Error:  
-      description: Modello di risposta in caso di errore    
+    Error:
+      description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -154,7 +157,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -168,8 +171,7 @@ components:
         detail:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
+          example: <detail_error>      
     
   securitySchemes:
     bearerAuth:
@@ -177,7 +179,8 @@ components:
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725.
+        Implementazione conforme ad RFC8725
+    
 
 security:
   - bearerAuth: []
