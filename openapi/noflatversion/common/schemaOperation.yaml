@@ -1,0 +1,6 @@
+type: string
+maxLength: 1
+enum:
+  - C
+  - U
+  - D

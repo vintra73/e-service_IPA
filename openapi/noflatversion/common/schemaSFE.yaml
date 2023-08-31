@@ -1,0 +1,34 @@
+description: UO di un ENTE
+type: object
+required:
+  - codice_fiscale_ente
+  - codice_ipa_ente
+  - codice_uni_uo
+  - descrizione_uo
+  - codice_fiscale_sfe
+  - data_verifica_cf
+  - cod_peppol
+  - data_avvio_sfe
+properties:
+  codice_fiscale_ente:
+    description: codice fiscale dell'ENTE
+    $ref: '#/components/schemas/CodiceFiscaleEnte'
+  codice_ipa_ente:
+    description: codice IPA dell'ENTE
+    $ref: '#/components/schemas/CodiceIPA'
+  codice_uni_uo:
+    $ref: '#/components/schemas/CodiceUniUO'
+  descrizione_uo:
+    type: string
+    maxLength: 1000
+  codice_fiscale_sfe:
+    $ref: '#/components/schemas/CodiceFiscaleEnte'
+  data_verifica_cf:
+    type: string
+    format: date                
+  cod_peppol:
+    type: string
+    maxLength: 255
+  data_avvio_sfe:
+    type: string
+    format: date

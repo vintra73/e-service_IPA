@@ -104,12 +104,12 @@ components:
   schemas:
     CodiceFiscaleEnte:
       $ref: './common/schemaCodiceFiscaleEnte.yaml'
+    
+    CodiceIPA:
+      $ref: './common/schemaCodiceIPA.yaml'
 
     DigitalAddress:
       $ref: './common/schemaDigitalAddress.yaml'
-
-    CodiceIPA:
-      $ref: './common/schemaCodiceIPA.yaml'
 
     DDs:
       description: array dei domicili digitali      

@@ -1,0 +1,37 @@
+description: UO di un ENTE
+type: object
+required:
+  - codice_fiscale_ente
+  - codice_ipa_ente
+  - codice_uni_uo
+  - descrizione_uo
+  - data_istituzione
+  - data_aggiornamento
+properties:
+  codice_fiscale_ente:
+    description: codice fiscale dell'ENTE
+    $ref: '#/components/schemas/CodiceFiscaleEnte'
+  codice_ipa_ente:
+    description: codice IPA dell'ENTE
+    $ref: '#/components/schemas/CodiceIPA'
+  codice_uni_uo:
+    $ref: '#/components/schemas/CodiceUniUO'
+  descrizione_uo:
+    type: string
+    maxLength: 1000
+  uff_eFatturaPA:
+    type: boolean
+  ufficio_transizione_digitale:
+    type: boolean
+  codice_uni_aoo:
+    type: string
+    maxLength: 7
+  codice_uni_uo_padre:
+    type: string
+    maxLength: 6
+  data_istituzione:
+    type: string
+    format: date 
+  data_aggiornamento:
+    type: string
+    format: date

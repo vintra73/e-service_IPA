@@ -142,16 +142,16 @@ components:
       type: string
       pattern: ^([0-9]{11})$
       example: 12345678901
+    
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
 
     DigitalAddress:
       description: e-mail conforme a local-part@domain previsto da rfc5322
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
-
-    CodiceIPA:
-      description: codice IPA dell'ENTE
-      type: string
-      maxLength: 100
 
     DDs:
       description: array dei domicili digitali      

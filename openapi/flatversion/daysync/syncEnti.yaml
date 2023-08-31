@@ -99,21 +99,34 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
+
     DigitalAddress:
       description: e-mail conforme a local-part@domain previsto da rfc5322
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
 
-    CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
-
     Enti:
       description: elenco degli Enti aggiornamenti
       type: array
       items:
-        $ref: '#/components/schemas/Ente'
+        type: object
+        required:
+          - ente
+          - operation
+        properties:
+          Ente: 
+            $ref: '#/components/schemas/Ente'
+          operation:  
+            type: string
+            maxLength: 1
+            enum:
+              - C
+              - U
+              - D
 
     Ente:
       description: ENTE
@@ -123,8 +136,7 @@ components:
         - denomination
         - category_type
         - category_code
-        - category_name
-        - operation       
+        - category_name       
       type: object
       properties:
         codice_fiscale_ente:
@@ -149,20 +161,18 @@ components:
           description: nome della categoria dell'ENTE
           type: string
           maxLength: 140
-        operation:
-            type: string
-            maxLength: 1
-            enum:
-              - C
-              - U              
-              - D
-        
-    Error: 
+        pippo:
+          type: string
+
+    Error:
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -175,7 +185,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -190,15 +200,16 @@ components:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
           example: <detail_error>
-      
+
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+     bearerAuth:
+       scheme: bearer
+       bearerFormat: JWT
+       type: http
+       description: |-
+         Implementazione conforme ad RFC8725
+     
 
 security:
   - bearerAuth: []

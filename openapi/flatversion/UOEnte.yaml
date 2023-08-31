@@ -143,6 +143,16 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
+
+    CodiceUniUO:
+      description: Codice unico dell'UO
+      type: string
+      maxLength: 6
+
     UO:
       description: UO di un ENTE
       type: object
@@ -161,11 +171,14 @@ components:
           description: codice IPA dell'ENTE
           $ref: '#/components/schemas/CodiceIPA'
         codice_uni_uo:
-          type: string
-          maxLength: 6
+          $ref: '#/components/schemas/CodiceUniUO'
         descrizione_uo:
           type: string
           maxLength: 1000
+        uff_eFatturaPA:
+          type: boolean
+        ufficio_transizione_digitale:
+          type: boolean
         codice_uni_aoo:
           type: string
           maxLength: 7
@@ -178,12 +191,7 @@ components:
         data_aggiornamento:
           type: string
           format: date
-
-    CodiceIPA:
-      description: codice IPA dell'ENTE
-      type: string
-      maxLength: 100
-
+    
     UOs:
       description: array delle UO      
       type: array

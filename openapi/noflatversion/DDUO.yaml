@@ -36,8 +36,7 @@ paths:
           description: Codice unico dell'UO
           required: true
           schema:
-            type: string
-            maxLength: 6
+            $ref: '#/components/schemas/CodiceUniUO'
           example: 12345678901
             
       responses:
@@ -67,8 +66,8 @@ components:
     $ref: './common/response.yaml'
 
   schemas:
-    CodiceFiscaleEnte:
-      $ref: './common/schemaCodiceFiscaleEnte.yaml'
+    CodiceUniUO:
+      $ref: './common/schemaCodiceUniUO.yaml'
 
     DigitalAddress:
       $ref: './common/schemaDigitalAddress.yaml'

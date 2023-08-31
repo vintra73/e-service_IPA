@@ -55,150 +55,41 @@ paths:
 components:
 
   responses:
-    '400':
-      description: BAD_REQUEST
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '401':
-      description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '404':
-      description: NOT_FOUND
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '500':
-      description: INTERNAL_SERVER_ERROR
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '503':
-      description: SERVICE_UNAVAILABLE
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    $ref: '../common/response.yaml'
 
   schemas:
     CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
-      type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
-
-    DigitalAddress:
-      description: e-mail conforme a local-part@domain previsto da rfc5322
-      type: string
-      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
+      $ref: '../common/schemaCodiceFiscaleEnte.yaml'
 
     CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
+      $ref: '../common/schemaCodiceIPA.yaml'
+
+    DigitalAddress:
+      $ref: '../common/schemaDigitalAddress.yaml'
 
     Enti:
       description: elenco degli Enti aggiornamenti
       type: array
       items:
-        $ref: '#/components/schemas/Ente'
+        type: object
+        required:
+          - ente
+          - operation
+        properties:
+          Ente: 
+            $ref: '#/components/schemas/Ente'
+          operation:  
+            $ref: '../common/schemaOperation.yaml'
 
     Ente:
-      description: ENTE
-      required:
-        - codice_fiscale_ente
-        - codice_ipa_ente
-        - denomination
-        - category_type
-        - category_code
-        - category_name
-        - operation       
-      type: object
-      properties:
-        codice_fiscale_ente:
-          description: codice fiscale dell'ENTE
-          $ref: '#/components/schemas/CodiceFiscaleEnte'
-        codice_ipa_ente:
-          description: codice IPA dell'ENTE
-          $ref: '#/components/schemas/CodiceIPA'
-        denomination:
-          description: denominazione dell'ENTE
-          type: string
-          maxLength: 1000
-        category_type:
-          description: tipologia della categoria dell'ENTE
-          type: string
-          maxLength: 140
-        category_code:
-          description: codice della categoria dell'ENTE
-          type: string
-          maxLength: 5
-        category_name:
-          description: nome della categoria dell'ENTE
-          type: string
-          maxLength: 140
-        operation:
-            type: string
-            maxLength: 1
-            enum:
-              - C
-              - U              
-              - D
-        
-    Error: 
-      description: Modello di risposta in caso di errore     
-      required:
-        - status
-        - type
-      type: object
-      properties:
-        status:
-          type: string
-          description: Codice di errore
-          example: <HTTP_CODE>
-          enum:
-            - '400'
-            - '401'
-            - '403'
-            - '404'
-            - '500'
-            - '503'
-        type:
-          type: string
-          description: Tipologia di errore
-          example: <HTTP_STATUS>
-          enum:
-            - BAD_REQUEST
-            - UNAUTHORIZED
-            - FORBIDDEN
-            - NOT_FOUND
-            - INTERNAL_SERVER_ERROR
-            - SERVICE_UNAVAILABLE
-        detail:
-          type: string
-          description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
+      $ref: '../common/schemaEnte.yaml'
+
+    Error:
+      $ref: '../common/schemaError.yaml'
+
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+     $ref: '../common/securitySchemes.yaml'
 
 security:
   - bearerAuth: []

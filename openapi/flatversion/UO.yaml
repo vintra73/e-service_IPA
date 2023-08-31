@@ -113,6 +113,11 @@ components:
       type: string
       maxLength: 6
 
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
+
     UO:
       description: UO di un ENTE
       type: object
@@ -151,11 +156,6 @@ components:
         data_aggiornamento:
           type: string
           format: date
-
-    CodiceIPA:
-      description: codice IPA dell'ENTE
-      type: string
-      maxLength: 100
 
     Error:
       description: Modello di risposta in caso di errore     

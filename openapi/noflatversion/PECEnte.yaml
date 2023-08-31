@@ -105,11 +105,11 @@ components:
     CodiceFiscaleEnte:
       $ref: './common/schemaCodiceFiscaleEnte.yaml'
 
-    DigitalAddress:
-      $ref: './common/schemaDigitalAddress.yaml'
-
     CodiceIPA:
       $ref: './common/schemaCodiceIPA.yaml'
+
+    DigitalAddress:
+      $ref: './common/schemaDigitalAddress.yaml'
 
     PECs:
       description: array di PEC      

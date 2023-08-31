@@ -36,8 +36,8 @@ paths:
           description: Codice unico dell'AOO
           required: true
           schema:
-            type: string
-            maxLength: 7
+            $ref: '#/components/schemas/CodiceUniAOO'
+
           example: 12345678901
             
       responses:
@@ -67,9 +67,9 @@ components:
     $ref: './common/response.yaml'
 
   schemas:
-    CodiceFiscaleEnte:
-      $ref: './common/schemaCodiceFiscaleEnte.yaml'
-
+   CodiceUniAOO:
+      $ref: './common/schemaCodiceUniAOO.yaml'
+    
     DigitalAddress:
       $ref: './common/schemaDigitalAddress.yaml'
 

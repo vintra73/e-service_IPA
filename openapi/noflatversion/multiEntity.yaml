@@ -1,0 +1,130 @@
+openapi: 3.0.1
+info:
+  title: IPA - Indice Domicili Digitali delle PA e GPS
+  
+  description: |-
+    API rese disponibili da IPA per la consultazione delle entità ENTE, AOO e UO
+
+    Pattern Model applicati:
+    - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
+    - [BLOCK_REST] Blocking REST    
+
+  contact:
+    name: AgID - Agenzia per l'Italia Digitale
+    url: https://www.agid.gov.it/
+  
+  license:
+    name: CC BY-NC-SA 4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  
+  version: 1.0.0
+
+servers:
+  - url: <TOBEDEFINE>
+    description: Server URL
+
+paths:
+  /Entity/{codice}:
+    get:
+      description: consultazione degli ENTI, AOO o UO dato il codice dell'entità (codice_ipa, codice_uni_aoo e codice_uni_uo)
+
+      operationId: getEntity
+
+      parameters:
+        - name: codice
+          in: path
+          description: Codice dell'entità
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/CodiceIPA'
+              - $ref: '#/components/schemas/CodiceUniAOO'
+              - $ref: '#/components/schemas/CodiceUniUO'
+          example: 12345678901
+            
+      responses:
+        '200':
+          description: JSON della AOO
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/typeEnte'
+                  - $ref: '#/components/schemas/typeAOO'
+                  - $ref: '#/components/schemas/typeUO' 
+                          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  
+components:
+
+  responses:
+    $ref: './common/response.yaml'
+
+  schemas:   
+    CodiceIPA:
+      $ref: './common/schemaCodiceIPA.yaml'
+
+    CodiceUniAOO:
+      $ref: './common/schemaCodiceUniAOO.yaml'
+
+    CodiceUniUO:
+      $ref: './common/schemaCodiceUniUO.yaml'
+
+    Ente:
+      $ref: './common/schemaAOO.yaml'
+
+    typeEnte:
+      type: object
+      properties:
+        ente:
+          $ref:  '#/components/schemas/Ente'
+        typeEntity:
+          type: string
+          enum: 
+            - 'enteType'
+
+    AOO:
+      $ref: './common/schemaAOO.yaml'   
+    
+    typeAOO:
+      type: object
+      properties:
+        ente:
+          $ref:  '#/components/schemas/AOO'
+        typeEntity:
+          type: string
+          enum: 
+            - 'AOOType'
+
+    UO:
+      $ref: './common/schemaAOO.yaml' 
+
+    typeUO:
+      type: object
+      properties:
+        ente:
+          $ref:  '#/components/schemas/UO'
+        typeEntity:
+          type: string
+          enum: 
+            - 'UOType'    
+
+    Error: 
+      $ref: './common/schemaError.yaml'
+         
+  securitySchemes:
+    $ref: './common/securitySchemes.yaml'
+    
+security:
+  - bearerAuth: []

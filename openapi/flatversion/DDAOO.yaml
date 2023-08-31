@@ -36,8 +36,8 @@ paths:
           description: Codice unico dell'AOO
           required: true
           schema:
-            type: string
-            maxLength: 7
+            $ref: '#/components/schemas/CodiceUniAOO'
+
           example: 12345678901
             
       responses:
@@ -102,12 +102,11 @@ components:
             $ref: '#/components/schemas/Error'
 
   schemas:
-    CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
+   CodiceUniAOO:
+      description: Codice unico dell'AOO
       type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
-
+      maxLength: 7
+    
     DigitalAddress:
       description: e-mail conforme a local-part@domain previsto da rfc5322
       type: string

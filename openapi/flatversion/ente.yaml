@@ -143,16 +143,16 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
-    DigitalAddress:
-      description: e-mail conforme a local-part@domain previsto da rfc5322
-      type: string
-      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
-      
     CodiceIPA:
       description: codice IPA dell'ENTE
       type: string
       maxLength: 100
 
+    DigitalAddress:
+      description: e-mail conforme a local-part@domain previsto da rfc5322
+      type: string
+      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
+    
     Ente:
       description: ENTE
       required:
@@ -186,6 +186,8 @@ components:
           description: nome della categoria dell'ENTE
           type: string
           maxLength: 140
+        pippo:
+          type: string
         
     Error:
       description: Modello di risposta in caso di errore     
