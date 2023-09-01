@@ -24,7 +24,7 @@ servers:
     description: Server URL
 
 paths:
-  /indirizziUO/{date}:
+  /indirizziUOs/{date}:
     get:
       description: consultazione degli aggiornamenti dell'indirizzo delle UO
 

@@ -23,7 +23,7 @@ servers:
     description: Server URL
 
 paths:
-  /indirizziAOO/{date}:
+  /indirizziAOOs/{date}:
     get:
       description: consultazione degli aggiornamenti dell'indirizzo delle AOO
 
