@@ -41,7 +41,7 @@ paths:
             
       responses:
         '200':
-          description: JSON della AOO
+          description: elenco JSON delle AOO
           content:
             application/json:
               schema:

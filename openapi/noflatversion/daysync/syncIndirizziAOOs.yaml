@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli aggiornamenti degli indirizzi delle AOO
+    API rese disponibili da IPA per la consultazione degli aggiornamenti degli indirizzi delle AOO alla specifica data
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
     - [BLOCK_REST] Blocking REST    
@@ -23,19 +23,28 @@ servers:
     description: Server URL
 
 paths:
-  /indirizziAOO:
+  /indirizziAOO/{date}:
     get:
       description: consultazione degli aggiornamenti dell'indirizzo delle AOO
 
       operationId: getIndirizzoAOO
 
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
+
       responses:
         '200':
-          description: JSON dell'indirizzo estratto
+          description: elenco JSON indirizzi delle AOO
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Address'
+                $ref: '#/components/schemas/Addresses'
           
         '400':
           $ref: '#/components/responses/400'

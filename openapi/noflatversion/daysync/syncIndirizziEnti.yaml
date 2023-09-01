@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli aggiornamenti dei domicili digitali delle AOO alla specifica data
+    API rese disponibili da IPA per la consultazione degli aggiornamenti degli indirizzi degli ENTI alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,11 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /DDAOOs/{date}:
+  /indirizziEnti/{date}:
     get:
-      description: consultazione degli aggiornamenti dei domicili digitali delle AOO
+      description: consultazione degli aggiornamenti dell'indirizzo degli ENTI alla specifica data
 
-      operationId: getDDAOOs
+      operationId: getIndirizziEnti
 
       parameters:
         - name: date
@@ -41,11 +41,11 @@ paths:
 
       responses:
         '200':
-          description: array JSON degli aggiornamenti dei domicili digitali delle AOO
+          description: elenco JSON indirizzi degli Enti
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DDs'
+                $ref: '#/components/schemas/Addresses'
           
         '400':
           $ref: '#/components/responses/400'
@@ -59,37 +59,39 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-
+  
+ 
 components:
 
   responses:
     $ref: '../common/response.yaml'
 
   schemas:
-    CodiceUniAOO:
-      $ref: '../common/schemaCodiceUniAOO.yaml'
+    CodiceFiscaleEnte:
+      $ref: '../common/schemaCodiceFiscaleEnte.yaml'
 
-    DigitalAddress:
-      $ref: '../common/schemaDigitalAddress.yaml'
-    
-    DDs:
-      description: array degli aggiornamenti dei domicili digitali      
+    CodiceIPA:
+      $ref: '../common/schemaCodiceIPA.yaml'
+
+    Addresses:
+      description: elenco indirizzi
       type: array
-      required:
-        - codice_unico_aoo
-        - DD        
-        - operation
-      items:
+      items:        
         type: object
         properties:       
-          codice_unico_aoo:
-            $ref: '#/components/schemas/CodiceUniAOO'   
-          DD:
-            $ref: '#/components/schemas/DigitalAddress'
+          codice_fiscale_ente:
+            $ref: '#/components/schemas/CodiceFiscaleEnte' 
+          codice_ipa_ente:
+            $ref: '#/components/schemas/CodiceIPA'  
+          address:
+            $ref: '#/components/schemas/Address'
           operation:
             $ref: '../common/schemaOperation.yaml'
-    
-    Error: 
+
+    Address:
+      $ref: '../common/schemaAddress.yaml'
+
+    Error:  
       $ref: '../common/schemaError.yaml'
       
     
