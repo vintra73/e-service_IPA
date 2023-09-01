@@ -24,14 +24,14 @@ servers:
     description: Server URL
 
 paths:
-  /indirizzoAOO/{codice_unico_aoo}:
+  /indirizzoAOO/{codice_uni_aoo}:
     get:
       description: consultazione dell'indirizzo di una AOO
 
       operationId: getIndirizzoFromCF
 
       parameters:
-        - name: codice_unico_aoo
+        - name: codice_uni_aoo
           in: path
           description: Codice unico dell'AOO
           required: true

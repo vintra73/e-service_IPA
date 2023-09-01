@@ -107,7 +107,7 @@ components:
     Representative:
       description: Rappresentate dell'ENTE
       required:
-        - codice_unico_aoo
+        - codice_uni_aoo
         - name
         - surname
         - role
@@ -115,7 +115,7 @@ components:
         
       type: object
       properties:        
-        codice_unico_aoo:
+        codice_uni_aoo:
           description: codice univoco dell'AOO
           type: string
           maxLength: 7

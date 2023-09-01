@@ -75,7 +75,7 @@ components:
       items:        
         type: object
         properties:       
-          codice_unico_aoo:
+          codice_uni_aoo:
             $ref: '#/components/schemas/CodiceUniAOO'   
           address:
             $ref: '#/components/schemas/Address'

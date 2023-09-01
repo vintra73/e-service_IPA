@@ -24,14 +24,14 @@ servers:
     description: Server URL
 
 paths:
-  /indirizzoUO/{codice_unico_uo}:
+  /indirizzoUO/{codice_uni_uo}:
     get:
       description: consultazione dell'indirizzo di una UO
 
       operationId: getIndirizzoFromCF
 
       parameters:
-        - name: codice_unico_uo
+        - name: codice_uni_uo
           in: path
           description: Codice unico dell'UO
           required: true

@@ -101,13 +101,13 @@ components:
       description: array degli aggiornamenti delle PEC      
       type: array
       required:
-        - codice_unico_aoo
+        - codice_uni_aoo
         - PEC        
         - operation
       items:
         type: object
         properties:       
-          codice_unico_aoo:
+          codice_uni_aoo:
             type: string
             maxLength: 7   
           PEC:

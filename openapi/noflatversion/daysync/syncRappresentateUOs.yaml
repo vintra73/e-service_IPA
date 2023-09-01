@@ -107,7 +107,7 @@ components:
     Representative:
       description: Rappresentate dell'ENTE
       required:
-        - codice_unico_uo
+        - codice_uni_uo
         - name
         - surname
         - role
@@ -115,7 +115,7 @@ components:
         
       type: object
       properties:        
-        codice_unico_uo:
+        codice_uni_uo:
           description: codice univoco dell'UO
           type: string
           maxLength: 6

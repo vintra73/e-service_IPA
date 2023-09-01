@@ -24,14 +24,14 @@ servers:
     description: Server URL
 
 paths:
-  /PECUO/{codice_unico_uo}:
+  /PECUO/{codice_uni_uo}:
     get:
       description: consultazione delle PEC delle UO
 
       operationId: getPECUO
 
       parameters:
-        - name: codice_unico_uo
+        - name: codice_uni_uo
           in: path
           description: Codice unico dell'UO
           required: true

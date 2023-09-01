@@ -76,13 +76,13 @@ components:
       description: array degli aggiornamenti dei domicili digitali      
       type: array
       required:
-        - codice_unico_uo
+        - codice_uni_uo
         - DD        
         - operation
       items:
         type: object
         properties:       
-          codice_unico_uo:
+          codice_uni_uo:
             $ref: '#/components/schemas/CodiceUniUO'   
           DD:
             $ref: '#/components/schemas/DigitalAddress'

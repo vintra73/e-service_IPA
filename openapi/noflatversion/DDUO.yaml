@@ -24,14 +24,14 @@ servers:
     description: Server URL
 
 paths:
-  /DDUO/{codice_unico_uo}:
+  /DDUO/{codice_uni_uo}:
     get:
       description: consultazione dei domicili digitali delle UO
 
       operationId: getDDUO
 
       parameters:
-        - name: codice_unico_uo
+        - name: codice_uni_uo
           in: path
           description: Codice unico dell'UO
           required: true

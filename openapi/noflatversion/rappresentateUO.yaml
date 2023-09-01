@@ -24,14 +24,14 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateUO/{codice_unico_uo}:
+  /rappresentateUO/{codice_uni_uo}:
     get:
       description: consultazione del reppresentate di una UO
 
       operationId: getRappresentate
 
       parameters:
-        - name: codice_unico_uo
+        - name: codice_uni_uo
           in: path
           description: Codice unico dell'UO
           required: true
