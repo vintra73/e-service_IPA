@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli aggiornamenti delle AOO
+    API rese disponibili da IPA per la consultazione degli aggiornamenti delle AOO alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,11 +24,20 @@ servers:
     description: Server URL
 
 paths:
-  /AOOs:
+  /AOOs/{date}:
     get:
       description: consultazione degli aggironamenti delle AOO
-
+      
       operationId: getAOOs
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
             
       responses:
         '200':

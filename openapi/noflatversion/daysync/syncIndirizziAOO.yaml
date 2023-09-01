@@ -54,137 +54,34 @@ paths:
 components:
 
   responses:
-    '400':
-      description: BAD_REQUEST
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '401':
-      description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '404':
-      description: NOT_FOUND
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '500':
-      description: INTERNAL_SERVER_ERROR
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '503':
-      description: SERVICE_UNAVAILABLE
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    $ref: '../common/response.yaml'
 
   schemas:
-    CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
-      type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
+    CodiceUniAOO:
+      $ref: '../common/schemaCodiceUniAOO.yaml'
 
     Addresses:
       description: elenco indirizzi
       type: array
-      items:
-        $ref: '#/components/schemas/Address'
+      items:        
+        type: object
+        properties:       
+          codice_unico_aoo:
+            $ref: '#/components/schemas/CodiceUniAOO'   
+          address:
+            $ref: '#/components/schemas/Address'
+          operation:
+            $ref: '../common/schemaOperation.yaml'
 
     Address:
-      description: Indirizzo della AOO
-      required: 
-        - codice_unico_aoo      
-        - codice_istat_comune
-        - codice_catastale_comune
-        - CAP
-        - address
-        - operation
-        
-      type: object
-      properties: 
-        codice_unico_aoo: 
-          type: string
-          maxLength: 7      
-        codice_istat_comune:
-          description: codice istat del Comune della sede dell'ENTE
-          type: string
-          maxLength: 6        
-        codice_catastale_comune:
-          description: codice catastale del Comune della sede  dell'ENTE
-          type: string
-          maxLength: 4        
-        CAP:
-          description: CAP del Comune della sede dell'ENTE
-          type: string
-          pattern: ^([0-9]{5})$
-        address:
-          description: indirizzo della sede dell'ENTE
-          type: string
-          maxLength: 246
-        operation:
-          type: string
-          maxLength: 1
-          enum:
-            - C
-            - U
-            - D 
+      $ref: '../common/schemaAddress.yaml'
 
     Error:  
-      description: Modello di risposta in caso di errore    
-      required:
-        - status
-        - type
-      type: object
-      properties:
-        status:
-          type: string
-          description: Codice di errore
-          example: <HTTP_CODE>
-          enum:
-            - '400'
-            - '401'
-            - '403'
-            - '404'
-            - '500'
-            - '503'
-        type:
-          type: string
-          description: Tipologia di errore
-          example: <HTTP_STATUS>
-          enum:
-            - BAD_REQUEST
-            - UNAUTHORIZED
-            - FORBIDDEN
-            - NOT_FOUND
-            - INTERNAL_SERVER_ERROR
-            - SERVICE_UNAVAILABLE
-        detail:
-          type: string
-          description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
+      $ref: '../common/schemaError.yaml'
       
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+    $ref: '../common/securitySchemes.yaml'
 
 security:
   - bearerAuth: []

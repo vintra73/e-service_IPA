@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli aggiornamenti degli ENTI
+    API rese disponibili da IPA per la consultazione degli aggiornamenti degli ENTI alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,11 +24,20 @@ servers:
     description: Server URL
 
 paths:
-  /enti:
+  /enti/{date}:
     get:
       description: consultazione degli aggiornamenti degli ENTI
 
       operationId: getEntes
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
        
       responses:
         '200':

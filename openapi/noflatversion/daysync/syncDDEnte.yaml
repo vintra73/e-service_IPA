@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli aggiornamenti dei domicili digitali degli ENTI
+    API rese disponibili da IPA per la consultazione degli aggiornamenti dei domicili digitali degli ENTI alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,11 +24,20 @@ servers:
     description: Server URL
 
 paths:
-  /DDEnti:
+  /DDEnti/{date}:
     get:
       description: consultazione degli aggiornamenti dei domicili digitali degli ENTI
 
       operationId: getDDEnti
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
       
       responses:
         '200':
@@ -54,60 +63,18 @@ paths:
 components:
 
   responses:
-    '400':
-      description: BAD_REQUEST
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '401':
-      description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '404':
-      description: NOT_FOUND
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '500':
-      description: INTERNAL_SERVER_ERROR
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '503':
-      description: SERVICE_UNAVAILABLE
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    $ref: '../common/response.yaml'
 
   schemas:
     CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
-      type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
-
-    DigitalAddress:
-      description: e-mail conforme a local-part@domain previsto da rfc5322
-      type: string
-      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
+      $ref: '../common/schemaCodiceFiscaleEnte.yaml'
 
     CodiceIPA:
-      description: codice ipa ENTE
-      type: string
-      maxLength: 100
+      $ref: '../common/schemaCodiceIPA.yaml'
 
+    DigitalAddress:
+      $ref: '../common/schemaDigitalAddress.yaml'
+    
     DDs:
       description: array degli aggiornamenti dei domicili digitali      
       type: array
@@ -126,54 +93,14 @@ components:
           DD:
             $ref: '#/components/schemas/DigitalAddress'
           operation:
-            type: string
-            maxLength: 1
-            enum:
-              - C              
-              - D
+             $ref: '../common/schemaOperation.yaml'
     
     Error: 
-      description: Modello di risposta in caso di errore     
-      required:
-        - status
-        - type
-      type: object
-      properties:
-        status:
-          type: string
-          description: Codice di errore
-          example: <HTTP_CODE>
-          enum:
-            - '400'
-            - '401'
-            - '403'
-            - '404'
-            - '500'
-            - '503'
-        type:
-          type: string
-          description: Tipologia di errore
-          example: <HTTP_STATUS>
-          enum:
-            - BAD_REQUEST
-            - UNAUTHORIZED
-            - FORBIDDEN
-            - NOT_FOUND
-            - INTERNAL_SERVER_ERROR
-            - SERVICE_UNAVAILABLE
-        detail:
-          type: string
-          description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
+      $ref: '../common/schemaError.yaml'
       
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+    $ref: '../common/securitySchemes.yaml'
 
 security:
   - bearerAuth: []
