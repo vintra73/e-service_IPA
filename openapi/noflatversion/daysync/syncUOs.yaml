@@ -24,11 +24,20 @@ servers:
     description: Server URL
 
 paths:
-  /UOs:
+  /UOs/{date}:
     get:
       description: aggiornamenti delle UO
 
       operationId: getUOs
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
            
       responses:
         '200':

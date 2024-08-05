@@ -24,11 +24,20 @@ servers:
     description: Server URL
 
 paths:
-  /SFEs:
+  /SFEs/{date}:
     get:
       description: aggiornamento delle SFE 
 
       operationId: getSFEs
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
 
       responses:
         '200':

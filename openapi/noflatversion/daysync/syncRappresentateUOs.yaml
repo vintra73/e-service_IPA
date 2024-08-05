@@ -24,11 +24,20 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentatiUOs:
+  /rappresentatiUOs/{date}:
     get:
       description: consultazione del reppresentate delle UO
 
       operationId: getRappresentateUO
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
             
       responses:
         '200':

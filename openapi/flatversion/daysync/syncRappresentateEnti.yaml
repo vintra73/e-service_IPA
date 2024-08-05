@@ -24,11 +24,22 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentatiEnti:
+  /rappresentatiEnti/{date}:
     get:
       description: consultazione del reppresentate degli Enti
 
       operationId: getRappresentate
+
+      parameters:
+        - name: date
+          in: path
+          description: Data variazioni
+          required: true
+          schema:
+            type: string
+            format: date
+
+
             
       responses:
         '200':
