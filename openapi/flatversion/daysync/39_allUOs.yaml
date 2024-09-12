@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli aggiornamenti delle AOO alla specifica data
+    API rese disponibili da IPA per le UO degli ENTI alla data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,11 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /AOOs/{date}:
+  /UOs/{date}:
     get:
-      description: consultazione degli aggiornamenti delle AOO
-      
-      operationId: getAOOs
+      description: aggiornamenti delle UO
+
+      operationId: getUOs
 
       parameters:
         - name: date
@@ -38,14 +38,14 @@ paths:
           schema:
             type: string
             format: date
-            
+           
       responses:
         '200':
-          description: elenco JSON delle AOO
+          description: array JSON delle UO di un ente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AOOs'
+                $ref: '#/components/schemas/UOs'
           
         '400':
           $ref: '#/components/responses/400'
@@ -59,6 +59,7 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
+  
   
 components:
 
@@ -107,89 +108,76 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
-    CodiceIPA:
-      description: codice IPA dell'ENTE
+    CodiceUniUO:
+      description: Codice unico dell'UO
       type: string
-      maxLength: 100
+      maxLength: 6
 
-    CodiceUniAOO:
-      description: Codice unico dell'AOO
-      type: string
-      maxLength: 7
-
-    AOOs:
-      description: elenco dei JSON degli ENTI
+    UOs:
+      description: elenco UO
       type: array
       items:
-        type: object
-        required:
-          - ente
-          - operation
-        properties:
-          ente: 
-            $ref: '#/components/schemas/AOO'
-          operation:  
-            type: string
-            maxLength: 1
-            enum:
-              - C
-              - U
-              - D
-      
-    AOO:
-      description: AOO di un ENTE
+        $ref: '#/components/schemas/UO'
+
+    UO:
+      description: UO di un ENTE
       type: object
-      
       required:
         - codice_fiscale_ente
         - codice_ipa_ente
-        - codice_uni_aoo
-        - descrizione_aoo
+        - codice_uni_uo
+        - descrizione_uo
         - data_istituzione
         - data_aggiornamento
-        
+        - operation
+
       properties:
-        codice_fiscale_ente:    
-          description: Codice Fiscale dell'ENTE      
-          type: string
-          pattern: ^([0-9]{11})$
-          example: 12345678901
-        codice_ipa_ente:    
+        codice_fiscale_ente:
+          description: codice fiscale dell'ENTE
+          $ref: '#/components/schemas/CodiceFiscaleEnte'
+        codice_ipa_ente:
           description: codice IPA dell'ENTE
-          type: string
-          maxLength: 100
-        codice_uni_aoo:
-          description: Codice unico dell'AOO
-          type: string
-          maxLength: 7
-        codice_aoo:
-          type: string
-          maxLength: 100
-        descrizione_aoo:
+          $ref: '#/components/schemas/CodiceIPA'
+        codice_uni_uo:
+          $ref: '#/components/schemas/CodiceUniUO'
+        descrizione_uo:
           type: string
           maxLength: 1000
-        protocollo_informatico:
+        uff_eFatturaPA:
           type: boolean
-        URL_protocollo_informatico:
+        ufficio_transizione_digitale:
+          type: boolean
+        codice_uni_aoo:
           type: string
-          maxLength: 200
-          pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
+          maxLength: 7
+        codice_uni_uo_padre:
+          type: string
+          maxLength: 6
         data_istituzione:
           type: string
           format: date 
         data_aggiornamento:
           type: string
           format: date
+        operation:
+          type: string
+          maxLength: 1
+          enum:
+            - C
+            - U
+            - D 
 
-    Error:
+    CodiceIPA:
+      description: codice ipa ENTE
+      type: string
+      maxLength: 100
+
+    Error: 
       description: Modello di risposta in caso di errore     
-      
-      type: object
-      
       required:
         - status
-        - typology      
-      
+        - type
+      type: object
       properties:
         status:
           type: string
@@ -202,7 +190,7 @@ components:
             - '404'
             - '500'
             - '503'
-        typology:
+        type:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -217,6 +205,7 @@ components:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
           example: <detail_error>
+      
     
   securitySchemes:
     bearerAuth:
@@ -224,8 +213,7 @@ components:
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725
-    
+        Implementazione conforme ad RFC8725.
 
 security:
   - bearerAuth: []

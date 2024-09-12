@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione delle AOO
+    API rese disponibili da IPA per la consultazione degli ENTI alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,28 +24,28 @@ servers:
     description: Server URL
 
 paths:
-  /AOO/{codice_uni_aoo}:
+  /enti/{date}:
     get:
-      description: consultazione delle AOO dato il codice unico delle stesse
+      description: consultazione degli ENTI
 
-      operationId: getAOO
+      operationId: getEntes
 
       parameters:
-        - name: codice_uni_aoo
+        - name: date
           in: path
-          description: Codice unico dell'AOO
+          description: Data variazioni
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceUniAOO'
-          example: 12345678901
-            
+            type: string
+            format: date
+       
       responses:
         '200':
-          description: JSON della AOO
+          description: JSON degli Enti
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AOO'
+                $ref: '#/components/schemas/Enti'
           
         '400':
           $ref: '#/components/responses/400'
@@ -60,6 +60,7 @@ paths:
         '503':
           $ref: '#/components/responses/503'
   
+ 
 components:
 
   responses:
@@ -100,58 +101,79 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
 
-  schemas:   
-    CodiceUniAOO:
-      description: Codice unico dell'AOO
+  schemas:
+    CodiceFiscaleEnte:
+      description: Codice Fiscale dell'ENTE      
       type: string
-      maxLength: 7
+      pattern: ^([0-9]{11})$
+      example: 12345678901
 
-    AOO:
-      description: AOO di un ENTE
-      type: object
-      
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
+
+    DigitalAddress:
+      description: e-mail conforme a local-part@domain previsto da rfc5322
+      type: string
+      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
+
+    Enti:
+      description: elenco degli Enti aggiornamenti
+      type: array
+      items:
+        type: object
+        required:
+          - ente
+          - operation
+        properties:
+          Ente: 
+            $ref: '#/components/schemas/Ente'
+          operation:  
+            type: string
+            maxLength: 1
+            enum:
+              - C
+              - U
+              - D
+
+    Ente:
+      description: ENTE
       required:
         - codice_fiscale_ente
         - codice_ipa_ente
-        - codice_uni_aoo
-        - descrizione_aoo
-        - data_istituzione
-        - data_aggiornamento
-        
+        - denomination
+        - category_type
+        - category_code
+        - category_name       
+      type: object
       properties:
-        codice_fiscale_ente:    
-          description: Codice Fiscale dell'ENTE      
-          type: string
-          pattern: ^([0-9]{11})$
-          example: 12345678901
-        codice_ipa_ente:    
+        codice_fiscale_ente:
+          description: codice fiscale dell'ENTE
+          $ref: '#/components/schemas/CodiceFiscaleEnte'
+        codice_ipa_ente:
           description: codice IPA dell'ENTE
-          type: string
-          maxLength: 100
-        codice_uni_aoo:
-          description: Codice unico dell'AOO
-          type: string
-          maxLength: 7
-        codice_aoo:
-          type: string
-          maxLength: 100
-        descrizione_aoo:
+          $ref: '#/components/schemas/CodiceIPA'
+        denomination:
+          description: denominazione dell'ENTE
           type: string
           maxLength: 1000
-        protocollo_informatico:
-          type: boolean
-        URL_protocollo_informatico:
+        category_type:
+          description: tipologia della categoria dell'ENTE
           type: string
-          maxLength: 200
-          pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
-        data_istituzione:
+          maxLength: 140
+        category_code:
+          description: codice della categoria dell'ENTE
           type: string
-          format: date 
-        data_aggiornamento:
+          maxLength: 5
+        category_name:
+          description: nome della categoria dell'ENTE
           type: string
-          format: date      
+          maxLength: 140
+        pippo:
+          type: string
 
-    Error: 
+    Error:
       description: Modello di risposta in caso di errore     
       
       type: object
@@ -187,15 +209,16 @@ components:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
           example: <detail_error>
-         
+
+    
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725
-    
-    
+     bearerAuth:
+       scheme: bearer
+       bearerFormat: JWT
+       type: http
+       description: |-
+         Implementazione conforme ad RFC8725
+     
+
 security:
   - bearerAuth: []

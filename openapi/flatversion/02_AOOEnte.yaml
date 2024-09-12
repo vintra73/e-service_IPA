@@ -1,0 +1,249 @@
+openapi: 3.0.1
+info:
+  title: IPA - Indice Domicili Digitali delle PA e GPS
+  
+  description: |-
+    API rese disponibili da IPA per la consultazione delle AOO degli ENTI
+
+    Pattern Model applicati:
+    - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
+    - [BLOCK_REST] Blocking REST    
+
+  contact:
+    name: AgID - Agenzia per l'Italia Digitale
+    url: https://www.agid.gov.it/
+  
+  license:
+    name: CC BY-NC-SA 4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  
+  version: 1.0.0
+
+servers:
+  - url: <TOBEDEFINE>
+    description: Server URL
+
+paths:
+  /AOOEnteFromCF/{codice_fiscale}:
+    get:
+      description: consultazione delle AOO di un ENTE dato il codice fiscale
+
+      operationId: getAOOEnteFromCF
+
+      parameters:
+        - name: codice_fiscale
+          in: path
+          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceFiscaleEnte'
+          example: 12345678901
+            
+      responses:
+        '200':
+          description: array JSON delle AOO di un ente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AOOs'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  
+  /AOOEnteFromCodiceIPA/{codice_ipa}:
+    get:
+      description: consultazione delle AOO di un ENTE dato il codice ipa
+
+      operationId: getAOOEnteFromCodiceIPA
+
+      parameters:
+        - name: codice_ipa
+          in: path
+          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceIPA'
+          example: agid
+            
+      responses:
+        '200':
+          description: array JSON delle AOO di un ente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AOOs'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  
+components:
+
+  responses:
+    '400':
+      description: BAD_REQUEST
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '401':
+      description: UNAUTHORIZED
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: FORBIDDEN
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '404':
+      description: NOT_FOUND
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '500':
+      description: INTERNAL_SERVER_ERROR
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '503':
+      description: SERVICE_UNAVAILABLE
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'     
+
+  schemas:
+    CodiceFiscaleEnte:
+      description: Codice Fiscale dell'ENTE      
+      type: string
+      pattern: ^([0-9]{11})$
+      example: 12345678901
+
+    CodiceIPA:
+      description: codice IPA dell'ENTE
+      type: string
+      maxLength: 100
+
+    AOO:
+      description: AOO di un ENTE
+      type: object
+      
+      required:
+        - codice_fiscale_ente
+        - codice_ipa_ente
+        - codice_uni_aoo
+        - descrizione_aoo
+        - data_istituzione
+        - data_aggiornamento
+        
+      properties:
+        codice_fiscale_ente:    
+          description: Codice Fiscale dell'ENTE      
+          type: string
+          pattern: ^([0-9]{11})$
+          example: 12345678901
+        codice_ipa_ente:    
+          description: codice IPA dell'ENTE
+          type: string
+          maxLength: 100
+        codice_uni_aoo:
+          description: Codice unico dell'AOO
+          type: string
+          maxLength: 7
+        codice_aoo:
+          type: string
+          maxLength: 100
+        descrizione_aoo:
+          type: string
+          maxLength: 1000
+        api_protocollo_informatico:
+          type: boolean
+        URL_api_protocollo_informatico:
+          type: string
+          maxLength: 200
+          pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
+        data_istituzione:
+          type: string
+          format: date 
+        data_aggiornamento:
+          type: string
+          format: date
+    
+    AOOs:
+      description: array delle AOO      
+      type: array
+      items:
+        $ref: '#/components/schemas/AOO'
+    
+    Error:
+      description: Modello di risposta in caso di errore     
+      
+      type: object
+      
+      required:
+        - status
+        - typology      
+      
+      properties:
+        status:
+          type: string
+          description: Codice di errore
+          example: <HTTP_CODE>
+          enum:
+            - '400'
+            - '401'
+            - '403'
+            - '404'
+            - '500'
+            - '503'
+        typology:
+          type: string
+          description: Tipologia di errore
+          example: <HTTP_STATUS>
+          enum:
+            - BAD_REQUEST
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - NOT_FOUND
+            - INTERNAL_SERVER_ERROR
+            - SERVICE_UNAVAILABLE
+        detail:
+          type: string
+          description: Descrizione di dettaglio dello specifico problema verificatosi
+          example: <detail_error>
+
+  securitySchemes:
+    bearerAuth:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: |-
+        Implementazione conforme ad RFC8725
+    
+
+security:
+  - bearerAuth: []

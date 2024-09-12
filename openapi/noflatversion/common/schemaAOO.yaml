@@ -22,9 +22,9 @@ properties:
   descrizione_aoo:
     type: string
     maxLength: 1000
-  protocollo_informatico:
+  api_protocollo_informatico:
     type: boolean
-  URL_protocollo_informatico:
+  URL_api_protocollo_informatico:
     type: string
     maxLength: 200
     pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$

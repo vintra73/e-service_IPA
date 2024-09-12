@@ -82,7 +82,7 @@ components:
       $ref: './common/schemaCodiceUniUO.yaml'
 
     Ente:
-      $ref: './common/schemaAOO.yaml'
+      $ref: './common/schemaEnte.yaml'
 
     typeEnte:
       type: object
@@ -108,7 +108,7 @@ components:
             - 'AOOType'
 
     UO:
-      $ref: './common/schemaAOO.yaml' 
+      $ref: './common/schemaUO.yaml' 
 
     typeUO:
       type: object
