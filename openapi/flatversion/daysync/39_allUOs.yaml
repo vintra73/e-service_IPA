@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per le UO degli ENTI alla data
+    API rese disponibili da IPA per la consultazione delle UO correnti
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,24 +24,15 @@ servers:
     description: Server URL
 
 paths:
-  /UOs/{date}:
+  /UOs:
     get:
-      description: aggiornamenti delle UO
+      description: consultazione delle UO correnti
 
-      operationId: getUOs
-
-      parameters:
-        - name: date
-          in: path
-          description: Data variazioni
-          required: true
-          schema:
-            type: string
-            format: date
+      operationId: getUOs      
            
       responses:
         '200':
-          description: array JSON delle UO di un ente
+          description: elenco delle UO aggiornate
           content:
             application/json:
               schema:
@@ -59,7 +50,30 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'  
   
 components:
 
@@ -103,7 +117,7 @@ components:
 
   schemas:
     CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
+      description: Codice Fiscale  
       type: string
       pattern: ^([0-9]{11})$
       example: 12345678901
@@ -114,11 +128,15 @@ components:
       maxLength: 6
 
     UOs:
-      description: elenco UO
       type: array
-      items:
-        $ref: '#/components/schemas/UO'
-
+      required:
+        - UO
+      items:        
+        type: object
+        properties:       
+          UO:
+            $ref: '#/components/schemas/UO'             
+        
     UO:
       description: UO di un ENTE
       type: object
@@ -129,8 +147,6 @@ components:
         - descrizione_uo
         - data_istituzione
         - data_aggiornamento
-        - operation
-
       properties:
         codice_fiscale_ente:
           description: codice fiscale dell'ENTE
@@ -159,25 +175,21 @@ components:
         data_aggiornamento:
           type: string
           format: date
-        operation:
-          type: string
-          maxLength: 1
-          enum:
-            - C
-            - U
-            - D 
 
     CodiceIPA:
-      description: codice ipa ENTE
+      description: codice IPA
       type: string
       maxLength: 100
 
-    Error: 
+    Error:  
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -190,7 +202,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -204,8 +216,7 @@ components:
         detail:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
+          example: <detail_error>      
     
   securitySchemes:
     bearerAuth:
@@ -213,7 +224,8 @@ components:
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725.
+        Implementazione conforme ad RFC8725
+    
 
 security:
   - bearerAuth: []

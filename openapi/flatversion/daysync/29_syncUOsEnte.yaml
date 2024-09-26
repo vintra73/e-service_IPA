@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per l'aggiornamento delle UO degli ENTI
+    PI rese disponibili da IPA per l'aggiornamento delle UO di un ENTE alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -26,18 +26,18 @@ servers:
 paths:
   /UOsEnteFromCF/{codice_fiscale}/{date}:
     get:
-      description: aggiornamenti delle UO
+      description: consultazione degli aggiornamenti delle UO di un Ente alla data
 
       operationId: getUOs
 
       parameters:
         - name: codice_fiscale
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice fiscale ENTE
           required: true
           schema:
             $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
+          
         - name: date
           in: path
           description: Data variazioni
@@ -48,7 +48,7 @@ paths:
            
       responses:
         '200':
-          description: array JSON delle UO di un ente
+          description: elenco delle UO aggiornate
           content:
             application/json:
               schema:
@@ -69,14 +69,14 @@ paths:
   
   /UOsEnteFromCodiceIPA/{codice_ipa}{date}:
     get:
-      description: aggiornamenti delle UO
+      description: consultazione degli aggiornamenti delle UO di un ENTE alla data
 
       operationId: getUOs
 
       parameters:
         - name: codice_ipa
           in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
+          description: Codice IPA dell'ENTE
           required: true
           schema:
             $ref: '#/components/schemas/CodiceIPA'
@@ -91,7 +91,7 @@ paths:
            
       responses:
         '200':
-          description: array JSON delle UO di un ente
+          description: elenco delle UO aggiornate
           content:
             application/json:
               schema:
@@ -110,6 +110,29 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503' 
 
 components:
 
@@ -158,11 +181,25 @@ components:
       pattern: ^([0-9]{11})$
       example: 12345678901
 
-    CodiceIPA:
-      description: codice IPA
+    CodiceUniUO:
+      description: Codice unico dell'UO
       type: string
-      maxLength: 100
+      maxLength: 6
 
+    UOs:
+      type: array
+      items:        
+        type: object
+        properties:       
+          UO:
+            $ref: '#/components/schemas/UO'             
+          operation:
+            type: string
+            maxLength: 1
+            enum:
+              - C
+              - U
+              - D
     UO:
       description: UO di un ENTE
       type: object
@@ -201,19 +238,21 @@ components:
         data_aggiornamento:
           type: string
           format: date
-    
-    UOs:
-      description: array delle UO      
-      type: array
-      items:
-        $ref: '#/components/schemas/UO'
 
-    Error: 
+    CodiceIPA:
+      description: codice IPA
+      type: string
+      maxLength: 100
+
+    Error:  
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -226,7 +265,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -240,8 +279,7 @@ components:
         detail:
           type: string
           description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
+          example: <detail_error>      
     
   securitySchemes:
     bearerAuth:
@@ -249,7 +287,8 @@ components:
       bearerFormat: JWT
       type: http
       description: |-
-        Implementazione conforme ad RFC8725.
+        Implementazione conforme ad RFC8725
+    
 
 security:
   - bearerAuth: []

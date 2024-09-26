@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli indirizzi degli ENTI
+    API rese disponibili da IPA per la consultazione degli indirizzi delle AOO
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -37,11 +37,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/CodiceUniAOO'
-          example: 12345678901
             
       responses:
         '200':
-          description: JSON dell'indirizzo estratto
+          description: indirizzo della AOO
           content:
             application/json:
               schema:
@@ -60,7 +59,30 @@ paths:
         '503':
           $ref: '#/components/responses/503'
   
- 
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+    
 components:
 
   responses:

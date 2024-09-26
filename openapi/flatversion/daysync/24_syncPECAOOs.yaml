@@ -26,7 +26,7 @@ servers:
 paths:
   /PECAOOs/{date}:
     get:
-      description: consultazione degli aggiornamenti delle PEC delle AOO
+      description: consultazione degli aggiornamenti delle PEC delle AOO alla data
 
       operationId: getPECAOOs
       
@@ -41,12 +41,36 @@ paths:
 
       responses:
         '200':
-          description: array JSON degli aggiornamenti delle PEC delle AOO
+          description: elenco delle PEC delle AOO aggiornate
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PECs'
           
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -111,9 +135,12 @@ components:
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
 
-    PECs:
-      description: array degli aggiornamenti delle PEC      
+    PECs:           
       type: array
+      required:
+        - codice_uni_aoo
+        - DD        
+        - operation
       items:        
         type: object
         properties:       

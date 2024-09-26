@@ -26,7 +26,7 @@ servers:
 paths:
   /DDAOO/{codice_uni_aoo}:
     get:
-      description: consultazione dei domicili digitali delle AOO
+      description: consultazione dei domicili digitali di una AOO dato il codice unico della stessa
 
       operationId: getDDAOO
 
@@ -37,12 +37,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/CodiceUniAOO'
-
-          example: 12345678901
-            
+  
       responses:
         '200':
-          description: array JSON dei domicili digitali di una AOO
+          description: array dei domicili digitali di una AOO
           content:
             application/json:
               schema:
@@ -61,6 +59,31 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
+    
 components:
 
   responses:
@@ -112,8 +135,7 @@ components:
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
 
-    DDs:
-      description: array dei domicili digitali      
+    DDs:     
       type: array
       items:
         $ref: '#/components/schemas/DigitalAddress'

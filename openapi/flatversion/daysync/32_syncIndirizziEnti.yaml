@@ -26,7 +26,7 @@ servers:
 paths:
   /indirizziEnti/{date}:
     get:
-      description: consultazione degli aggiornamenti dell'indirizzo degli ENTI alla specifica data
+      description: consultazione degli aggiornamenti degli indirizzi degli ENTI alla data
 
       operationId: getIndirizziEnti
 
@@ -41,7 +41,7 @@ paths:
 
       responses:
         '200':
-          description: elenco JSON indirizzi degli Enti
+          description: elenco degli indirizzi degli ENTI aggiornati
           content:
             application/json:
               schema:
@@ -60,7 +60,30 @@ paths:
         '503':
           $ref: '#/components/responses/503'
   
- 
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'  
+  
 components:
 
   responses:
@@ -116,6 +139,11 @@ components:
     Addresses:
       description: elenco indirizzi
       type: array
+      required:
+        - codice_fiscale_ente
+        - codice_ipa_ente
+        - address
+        - operation
       items:        
         type: object
         properties:       

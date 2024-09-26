@@ -26,7 +26,7 @@ servers:
 paths:
   /PECUO/{codice_uni_uo}:
     get:
-      description: consultazione delle PEC delle UO
+      description: consultazione delle PEC di una UO dato il codice unico della stessa
 
       operationId: getPECUO
 
@@ -37,11 +37,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/CodiceUniUO'
-          example: 12345678901
             
       responses:
         '200':
-          description: array JSON dei domicili digitali di una UO
+          description: array delle PEC di una UO
           content:
             application/json:
               schema:
@@ -59,6 +58,30 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'  
 
 components:
 
@@ -111,8 +134,7 @@ components:
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
 
-    PECs:
-      description: array delle PEC      
+    PECs:      
       type: array
       items:
         $ref: '#/components/schemas/DigitalAddress'

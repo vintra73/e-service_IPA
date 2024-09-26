@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione degli ENTI alla specifica data
+    API rese disponibili da IPA per la consultazione degli ENTI correnti
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,24 +24,15 @@ servers:
     description: Server URL
 
 paths:
-  /enti/{date}:
+  /enti:
     get:
-      description: consultazione degli ENTI
+      description: consultazione degli ENTI correnti
 
       operationId: getEntes
-
-      parameters:
-        - name: date
-          in: path
-          description: Data variazioni
-          required: true
-          schema:
-            type: string
-            format: date
        
       responses:
         '200':
-          description: JSON degli Enti
+          description: elenco degli ENTI correnti
           content:
             application/json:
               schema:
@@ -59,7 +50,30 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503' 
  
 components:
 
@@ -124,19 +138,11 @@ components:
       items:
         type: object
         required:
-          - ente
-          - operation
+          - ente          
         properties:
           Ente: 
             $ref: '#/components/schemas/Ente'
-          operation:  
-            type: string
-            maxLength: 1
-            enum:
-              - C
-              - U
-              - D
-
+          
     Ente:
       description: ENTE
       required:

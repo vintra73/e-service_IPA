@@ -33,15 +33,14 @@ paths:
       parameters:
         - name: codice_fiscale
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice fiscale ENTE 
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
+            $ref: '#/components/schemas/CodiceFiscaleEnte'          
             
       responses:
         '200':
-          description: JSON dell'indirizzo estratto
+          description: indirizzo dell'ENTE
           content:
             application/json:
               schema:
@@ -69,7 +68,7 @@ paths:
       parameters:
         - name: codice_ipa
           in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
+          description: Codice IPA dell'ENTE
           required: true
           schema:
             $ref: '#/components/schemas/CodiceIPA'
@@ -77,7 +76,7 @@ paths:
             
       responses:
         '200':
-          description: JSON dell'indirizzo estratto
+          description: indirizzo dell'ENTE
           content:
             application/json:
               schema:
@@ -95,7 +94,31 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+    
 components:
 
   responses:

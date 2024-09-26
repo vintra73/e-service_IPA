@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per l'aggiornamento dei rappresentanti delle UO
+    API rese disponibili da IPA per la consultazione degli aggiornamenti dei rappresentanti delle UO alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -60,6 +60,30 @@ paths:
         '503':
           $ref: '#/components/responses/503'
    
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
 components:
 
   responses:
@@ -101,33 +125,20 @@ components:
             $ref: '#/components/schemas/Error'
 
   schemas:
-    CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
+    CodiceUniUO:
+      description: Codice unico dell'UO
       type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
-
-    Representatives:
-      description: elenco di rappresentati 
-      type: array
-      items:
-        $ref: '#/components/schemas/Representative'
+      maxLength: 6
 
     Representative:
       description: Rappresentate dell'ENTE
       required:
-        - codice_uni_uo
         - name
         - surname
         - role
-        - operation
         
       type: object
       properties:        
-        codice_uni_uo:
-          description: codice univoco dell'UO
-          type: string
-          maxLength: 6
         name:
           description: nome del rappresentate dell'ENTE
           type: string
@@ -139,21 +150,39 @@ components:
         role:
           description: ruolo del rappresente dell'ENTE
           type: string
-          maxLength: 100   
-        operation:
-          type: string
-          maxLength: 1
-          enum:
-            - C
-            - U
-            - D      
+          maxLength: 100 
 
-    Error: 
+    Representatives:
+      description: elenco indirizzi
+      type: array
+      required:
+        - codice_uni_uo
+        - representative
+        - operation
+      items:        
+        type: object
+        properties:       
+          codice_uni_uo:
+            $ref: '#/components/schemas/CodiceUniUO'
+          representative:
+            $ref: '#/components/schemas/Representative'
+          operation:
+            type: string
+            maxLength: 1
+            enum:
+              - C
+              - U
+              - D
+
+    Error:  
       description: Modello di risposta in caso di errore     
+      
+      type: object
+      
       required:
         - status
-        - type
-      type: object
+        - typology      
+      
       properties:
         status:
           type: string
@@ -166,7 +195,7 @@ components:
             - '404'
             - '500'
             - '503'
-        type:
+        typology:
           type: string
           description: Tipologia di errore
           example: <HTTP_STATUS>
@@ -184,12 +213,13 @@ components:
       
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+      bearerAuth:
+        scheme: bearer
+        bearerFormat: JWT
+        type: http
+        description: |-
+          Implementazione conforme ad RFC8725
+      
 
 security:
   - bearerAuth: []

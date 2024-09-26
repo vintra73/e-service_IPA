@@ -26,18 +26,17 @@ servers:
 paths:
   /AOOsEnteFromCF/{codice_fiscale}/{date}:
     get:
-      description: consultazione degli aggiornamenti delle AOO
+      description: consultazione degli aggiornamenti delle AOO di un ENTE alla data
       
       operationId: getAOOs
 
       parameters:
         - name: codice_fiscale
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice fiscale ENTE
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
+            $ref: '#/components/schemas/CodiceFiscaleEnte'          
         - name: date
           in: path
           description: Data variazioni
@@ -48,7 +47,7 @@ paths:
             
       responses:
         '200':
-          description: elenco JSON delle AOO
+          description: elenco delle AOO aggiornate
           content:
             application/json:
               schema:
@@ -69,18 +68,17 @@ paths:
 
   /AOOsEnteCodiceIPA/{codice_ipa}/{date}:
     get:
-      description: consultazione degli aggiornamenti delle AOO
+      description: consultazione degli aggiornamenti delle AOO di un Ente alla data
       
       operationId: getAOOs
 
       parameters:
         - name: codice_ipa
           in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
+          description: Codice IPA dell'ENTE 
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceIPA'
-          example: agid
+            $ref: '#/components/schemas/CodiceIPA'          
         - name: date
           in: path
           description: Data variazioni
@@ -91,12 +89,36 @@ paths:
             
       responses:
         '200':
-          description: elenco JSON delle AOO
+          description: elenco delle AOO aggiornate
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AOOs'
           
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -162,21 +184,15 @@ components:
       type: string
       maxLength: 100
 
-    CodiceUniAOO:
-      description: Codice unico AOO
-      type: string
-      maxLength: 7
-
-    AOOs:
-      description: elenco dei JSON delle AOO
+    AOOs:      
       type: array
       items:
         type: object
         required:
-          - ente
+          - AOO
           - operation
         properties:
-          ente: 
+          AOO: 
             $ref: '#/components/schemas/AOO'
           operation:  
             type: string

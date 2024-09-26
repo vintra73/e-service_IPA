@@ -41,7 +41,7 @@ paths:
       
       responses:
         '200':
-          description: elenco JSON dei domicili digitali degli ENTI
+          description: elenco dei domicili digitali degli ENTI aggiornati
           content:
             application/json:
               schema:
@@ -59,7 +59,31 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+     
 components:
 
   responses:
@@ -117,8 +141,7 @@ components:
       type: string
       pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
     
-    DDs:
-      description: array degli aggiornamenti dei domicili digitali      
+    DDs:      
       type: array
       required:
         - codice_fiscale_ente
