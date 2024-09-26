@@ -1,0 +1,89 @@
+openapi: 3.0.1
+info:
+  title: IPA - Indice Domicili Digitali delle PA e GPS
+  
+  description: |-
+    API rese disponibili da IPA per la consultazione dei domicili digitali delle UO
+
+    Pattern Model applicati:
+    - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
+    - [BLOCK_REST] Blocking REST    
+
+  contact:
+    name: AgID - Agenzia per l'Italia Digitale
+    url: https://www.agid.gov.it/
+  
+  license:
+    name: CC BY-NC-SA 4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  
+  version: 1.0.0
+
+servers:
+  - url: <TOBEDEFINE>
+    description: Server URL
+
+paths:
+  /DDUO/{codice_uni_uo}:
+    get:
+      description: consultazione dei domicili digitali di una UO dato il codice unico della stessa
+
+      operationId: getDDUO
+
+      parameters:
+        - name: codice_uni_uo
+          in: path
+          description: Codice unico dell'UO
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceUniUO'
+            
+      responses:
+        '200':
+          description: array dei domicili digitali di una UO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DDs'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /status:
+    $ref: './common/pathStatus.yaml'
+
+components:
+
+  responses:
+    $ref: './common/response.yaml'
+
+  schemas:
+    CodiceUniUO:
+      $ref: './common/schemaCodiceUniUO.yaml'
+
+    DigitalAddress:
+      $ref: './common/schemaDigitalAddress.yaml'
+
+    DDs:      
+      type: array
+      items:
+        $ref: '#/components/schemas/DigitalAddress'
+    
+    Error:
+      $ref: './common/schemaError.yaml'
+    
+  securitySchemes:
+    $ref: './common/securitySchemes.yaml'
+
+security:
+  - bearerAuth: []

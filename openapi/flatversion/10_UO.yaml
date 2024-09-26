@@ -1,0 +1,229 @@
+openapi: 3.0.1
+info:
+  title: IPA - Indice Domicili Digitali delle PA e GPS
+  
+  description: |-
+    API rese disponibili da IPA per la consultazione delle UO
+
+    Pattern Model applicati:
+    - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
+    - [BLOCK_REST] Blocking REST    
+
+  contact:
+    name: AgID - Agenzia per l'Italia Digitale
+    url: https://www.agid.gov.it/
+  
+  license:
+    name: CC BY-NC-SA 4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  
+  version: 1.0.0
+
+servers:
+  - url: <TOBEDEFINE>
+    description: Server URL
+
+paths:
+  /UO/{codice_uni_uo}:
+    get:
+      description: consultazione di una UO dato il codice unico della stessa 
+
+      operationId: getUO
+
+      parameters:
+        - name: codice_uni_uo
+          in: path
+          description: Codice unico dell'AOO
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceUniUO'          
+            
+      responses:
+        '200':
+          description: anagrafica della UO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UO'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'  
+  
+components:
+
+  responses:
+    '400':
+      description: BAD_REQUEST
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '401':
+      description: UNAUTHORIZED
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: FORBIDDEN
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '404':
+      description: NOT_FOUND
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '500':
+      description: INTERNAL_SERVER_ERROR
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '503':
+      description: SERVICE_UNAVAILABLE
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    CodiceFiscaleEnte:
+      description: Codice Fiscale  
+      type: string
+      pattern: ^([0-9]{11})$
+      example: 12345678901
+
+    CodiceUniUO:
+      description: Codice unico dell'UO
+      type: string
+      maxLength: 6
+
+    CodiceIPA:
+      description: codice IPA
+      type: string
+      maxLength: 100
+
+    UO:
+      description: UO di un ENTE
+      type: object
+      required:
+        - codice_fiscale_ente
+        - codice_ipa_ente
+        - codice_uni_uo
+        - descrizione_uo
+        - data_istituzione
+        - data_aggiornamento
+      properties:
+        codice_fiscale_ente:
+          description: codice fiscale dell'ENTE
+          $ref: '#/components/schemas/CodiceFiscaleEnte'
+        codice_ipa_ente:
+          description: codice IPA dell'ENTE
+          $ref: '#/components/schemas/CodiceIPA'
+        codice_uni_uo:
+          $ref: '#/components/schemas/CodiceUniUO'
+        descrizione_uo:
+          type: string
+          maxLength: 1000
+        uff_eFatturaPA:
+          type: boolean
+        ufficio_transizione_digitale:
+          type: boolean
+        codice_uni_aoo:
+          type: string
+          maxLength: 7
+        codice_uni_uo_padre:
+          type: string
+          maxLength: 6
+        data_istituzione:
+          type: string
+          format: date 
+        data_aggiornamento:
+          type: string
+          format: date
+
+    Error:
+      description: Modello di risposta in caso di errore     
+      
+      type: object
+      
+      required:
+        - status
+        - typology      
+      
+      properties:
+        status:
+          type: string
+          description: Codice di errore
+          example: <HTTP_CODE>
+          enum:
+            - '400'
+            - '401'
+            - '403'
+            - '404'
+            - '500'
+            - '503'
+        typology:
+          type: string
+          description: Tipologia di errore
+          example: <HTTP_STATUS>
+          enum:
+            - BAD_REQUEST
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - NOT_FOUND
+            - INTERNAL_SERVER_ERROR
+            - SERVICE_UNAVAILABLE
+        detail:
+          type: string
+          description: Descrizione di dettaglio dello specifico problema verificatosi
+          example: <detail_error>
+
+  securitySchemes:
+    bearerAuth:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: |-
+        Implementazione conforme ad RFC8725
+    
+
+security:
+  - bearerAuth: []

@@ -1,0 +1,230 @@
+openapi: 3.0.1
+info:
+  title: IPA - Indice Domicili Digitali delle PA e GPS
+  
+  description: |-
+    API rese disponibili da IPA per la consultazione dei domicili digitali degli ENTI
+
+    Pattern Model applicati:
+    - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
+    - [BLOCK_REST] Blocking REST    
+
+  contact:
+    name: AgID - Agenzia per l'Italia Digitale
+    url: https://www.agid.gov.it/
+  
+  license:
+    name: CC BY-NC-SA 4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  
+  version: 1.0.0
+
+servers:
+  - url: <TOBEDEFINE>
+    description: Server URL
+
+paths:
+  /DDEnteFromCF/{codice_fiscale}:
+    get:
+      description: consultazione dei domicili digitali di un ENTE dato il codice fiscale dello stesso
+
+      operationId: getDDEnteFromCF
+
+      parameters:
+        - name: codice_fiscale
+          in: path
+          description: Codice fiscale ENTE 
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceFiscaleEnte'          
+            
+      responses:
+        '200':
+          description: array dei domicili digitali di un ENTE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DDs'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  
+  /DDEnteFromCodiceIPA/{codice_ipa}:
+    get:
+      description: consultazione dei domicili digitali di un ENTE dato il codice ipa dello stesso
+
+      operationId: getDDEnteFromCodiceIPA
+
+      parameters:
+        - name: codice_ipa
+          in: path
+          description: Codice IPA dell'ENTE 
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceIPA'          
+            
+      responses:
+        '200':
+          description: array dei domicili digitali di un ENTE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DDs'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service in applicazione della [RAC_REST_NAME_011] delle Linee Guida sull’interoperabilità tecnica delle Pubbliche Amministrazioni
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
+components:
+
+  responses:
+    '400':
+      description: BAD_REQUEST
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '401':
+      description: UNAUTHORIZED
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: FORBIDDEN
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '404':
+      description: NOT_FOUND
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '500':
+      description: INTERNAL_SERVER_ERROR
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '503':
+      description: SERVICE_UNAVAILABLE
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    CodiceFiscaleEnte:
+      description: Codice Fiscale  
+      type: string
+      pattern: ^([0-9]{11})$
+      example: 12345678901
+    
+    CodiceIPA:
+      description: codice IPA
+      type: string
+      maxLength: 100
+
+    DigitalAddress:
+      description: e-mail conforme a local-part@domain previsto da rfc5322
+      type: string
+      pattern: ^[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+@[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+\.[a-zA-Z0-9!#$%&'*+\-\/=?^_`{|}~.]+$
+
+    DDs:    
+      type: array
+      items:
+        $ref: '#/components/schemas/DigitalAddress'
+    
+    Error:
+      description: Modello di risposta in caso di errore     
+      
+      type: object
+      
+      required:
+        - status
+        - typology      
+      
+      properties:
+        status:
+          type: string
+          description: Codice di errore
+          example: <HTTP_CODE>
+          enum:
+            - '400'
+            - '401'
+            - '403'
+            - '404'
+            - '500'
+            - '503'
+        typology:
+          type: string
+          description: Tipologia di errore
+          example: <HTTP_STATUS>
+          enum:
+            - BAD_REQUEST
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - NOT_FOUND
+            - INTERNAL_SERVER_ERROR
+            - SERVICE_UNAVAILABLE
+        detail:
+          type: string
+          description: Descrizione di dettaglio dello specifico problema verificatosi
+          example: <detail_error>
+    
+  securitySchemes:
+    bearerAuth:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: |-
+        Implementazione conforme ad RFC8725
+    
+
+security:
+  - bearerAuth: []

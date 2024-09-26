@@ -1,0 +1,94 @@
+openapi: 3.0.1
+info:
+  title: IPA - Indice Domicili Digitali delle PA e GPS
+  
+  description: |-
+    API rese disponibili da IPA per la consultazione degli ENTI correnti
+
+    Pattern Model applicati:
+    - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
+    - [BLOCK_REST] Blocking REST    
+
+  contact:
+    name: AgID - Agenzia per l'Italia Digitale
+    url: https://www.agid.gov.it/
+  
+  license:
+    name: CC BY-NC-SA 4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+  
+  version: 1.0.0
+
+servers:
+  - url: <TOBEDEFINE>
+    description: Server URL
+
+paths:
+  /enti:
+    get:
+      description: consultazione degli ENTI correnti
+
+      operationId: getEntes
+       
+      responses:
+        '200':
+          description: elenco degli ENTI correnti
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enti'
+          
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+
+  /status:
+    $ref: '../common/pathStatus.yaml' 
+ 
+components:
+
+  responses:
+    $ref: '../common/response.yaml'
+
+  schemas:
+    CodiceFiscaleEnte:
+      $ref: '../common/schemaCodiceFiscaleEnte.yaml'
+
+    CodiceIPA:
+      $ref: '../common/schemaCodiceIPA.yaml'
+
+    DigitalAddress:
+      $ref: '../common/schemaDigitalAddress.yaml'
+
+    Enti:
+      description: elenco degli Enti aggiornamenti
+      type: array
+      items:
+        type: object
+        required:
+          - ente          
+        properties:
+          Ente: 
+            $ref: '#/components/schemas/Ente'
+          
+    Ente:
+      $ref: '../common/schemaEnte.yaml'
+
+    Error:
+      $ref: '../common/schemaError.yaml'
+
+    
+  securitySchemes:
+     $ref: '../common/securitySchemes.yaml'
+
+security:
+  - bearerAuth: []
