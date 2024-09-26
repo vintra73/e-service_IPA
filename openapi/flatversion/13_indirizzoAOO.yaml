@@ -103,7 +103,7 @@ components:
 
   schemas:
     CodiceUniAOO:
-      description: Codice unico dell'AOO
+      description: Codice unico AOO
       type: string
       maxLength: 7
       

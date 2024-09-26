@@ -26,7 +26,7 @@ servers:
 paths:
   /PECEnti/{date}:
     get:
-      description: consultazione degli aggiornamenti delle PEC degli ENTI
+      description: consultazione degli aggiornamenti delle PEC degli ENTI alla data
 
       operationId: getPECEnti
       
@@ -41,7 +41,7 @@ paths:
 
       responses:
         '200':
-          description: array JSON delle PEC degli ENTI
+          description: elenco delle PEC degli ENTI aggiornate
           content:
             application/json:
               schema:
@@ -59,7 +59,10 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    $ref: '../common/pathStatus.yaml'  
+
 components:
 
   responses:
@@ -75,8 +78,12 @@ components:
     DigitalAddress:
       $ref: '../common/schemaDigitalAddress.yaml'
     
-    PECs:
-      description: array degli aggiornamenti delle PEC   
+    PECs:      
+      required:
+        - codice_fiscale_ente
+        - codice_ipa_ente
+        - address
+        - operation 
       type: array
       items:        
         type: object

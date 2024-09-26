@@ -17,20 +17,26 @@ properties:
   codice_uni_aoo:
     $ref: './schemaCodiceUniAOO.yaml'
   codice_aoo:
+    description: codice AOO
     type: string
     maxLength: 100
   descrizione_aoo:
+    description: descrizione AOO
     type: string
     maxLength: 1000
   api_protocollo_informatico:
+    description: flag relativo alla esposizione delle API per lo scambio di documenti protocollati tra AOO ai sensi delle LLGG Documento Informatico
     type: boolean
   URL_api_protocollo_informatico:
+    description: riferimento alle API esposte per lo scambio di documenti protocollati tra AOO ai sensi delle LLGG Documento Informatico
     type: string
     maxLength: 200
     pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
   data_istituzione:
+    description: data istituzione amministrativo della AOO
     type: string
     format: date 
   data_aggiornamento:
+    description: data ultimo aggiornamento amministrativo della AOO
     type: string
     format: date

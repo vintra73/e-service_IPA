@@ -102,8 +102,8 @@ components:
             $ref: '#/components/schemas/Error'
 
   schemas:
-   CodiceUniAOO:
-      description: Codice unico dell'AOO
+    CodiceUniAOO:
+      description: Codice unico AOO
       type: string
       maxLength: 7
     

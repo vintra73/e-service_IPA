@@ -12,43 +12,43 @@ Le API previste sono:
 
 | # | e-service |
 |---|---|
-| x01 | API per la consultazione delle AOO |
-| x02 | API per la consultazione delle AOO di un ENTE |
-| x03 | API per la consultazione dei DD di un AOO |
-| x04 | API per la consultazione dei DD di un ENTE |
-| x05 | API per la consultazione dei DD di un UO |
-| x06 | API per la consultazione delle PEC/RECAPITO CERTIFICATO di un AOO |
-| x07 | API per la consultazione delle PEC/RECAPITO di un ENTE |
-| x08 | API per la consultazione delle PEC/RECAPITO di un UO |
-| x09 | API per la consultazione delle SFE di un ENTE |
-| x10 | API per la consultazione delle UO |
-| x11 | API per la consultazione delle UO di un ENTE |
-| x12 | API per la consultazione degli ENTI |
-| x13 | API per la consultazione degli indirizzi di un AOO |
-| x14 | API per la consultazione degli indirizzi di un ENTE |
-| x15 | API per la consultazione degli indirizzi di un UO |
-| x16 | API per la consultazione dei rappresentanti di un AOO |
-| x17 | API per la consultazione dei rappresentanti di un ENTE |
-| x18 | API per la consultazione dei rappresentanti di un UO |
-| x19 | API per la consultazione delle AOO variate alla data |
-| x20 | API per la consultazione delle AOO di un ENTE variate alla data |
-| x21 | API per la consultazione dei DD di un AOO variati alla data |
-| x22 | API per la consultazione dei DD di un ENTE variati alla data |
-| x23 | API per la consultazione dei DD di un UO variati alla data |
-| x24 | API per la consultazione delle PEC/RECAPITO di un AOO variate alla data |
-| x25 | API per la consultazione delle PEC/RECAPITO di un ENTE variate alla data |
-| x26 | API per la consultazione delle PEC/RECAPITO di un UO variate alla data |
-| x27 | API per la consultazione delle SFE di un ENTE variate alla data |
-| x28 | API per la consultazione delle UO variate alla data |
-| x29 | API per la consultazione delle UO di un ENTE variate alla data |
-| x30 | API per la consultazione degli ENTI variati alla data |
-| x31 | API per la consultazione degli indirizzi di un AOO variati alla data |
-| x32 | API per la consultazione degli indirizzi di un ENTE variati alla data |
-| x33 | API per la consultazione degli indirizzi di un UO variati alla data |
-| x34 | API per la consultazione dei rappresentanti di un AOO variati alla data |
-| x35 | API per la consultazione dei rappresentanti di un ENTE variati alla data |
-| x36 | API per la consultazione dei rappresentanti di un UO variati alla data |
-| x37 | API per la consultazione dell’elenco delle AOO alla data  |
-| x38 | API per la consultazione dell’elenco delle ENTE alla data  |
-| x39 | API per la consultazione dell’elenco delle UO alla data  |
-| x40 | API per la consultazione unica di Ente, AOO e UO |
+| 01 | API per la consultazione delle AOO |
+| 02 | API per la consultazione delle AOO di un ENTE |
+| 03 | API per la consultazione dei DD di un AOO |
+| 04 | API per la consultazione dei DD di un ENTE |
+| 05 | API per la consultazione dei DD di un UO |
+| 06 | API per la consultazione delle PEC/RECAPITO CERTIFICATO di un AOO |
+| 07 | API per la consultazione delle PEC/RECAPITO di un ENTE |
+| 08 | API per la consultazione delle PEC/RECAPITO di un UO |
+| 09 | API per la consultazione delle SFE di un ENTE |
+| 10 | API per la consultazione delle UO |
+| 11 | API per la consultazione delle UO di un ENTE |
+| 12 | API per la consultazione degli ENTI |
+| 13 | API per la consultazione degli indirizzi di un AOO |
+| 14 | API per la consultazione degli indirizzi di un ENTE |
+| 15 | API per la consultazione degli indirizzi di un UO |
+| 16 | API per la consultazione dei rappresentanti di un AOO |
+| 17 | API per la consultazione dei rappresentanti di un ENTE |
+| 18 | API per la consultazione dei rappresentanti di un UO |
+| 19 | API per la consultazione delle AOO variate alla data |
+| 20 | API per la consultazione delle AOO di un ENTE variate alla data |
+| 21 | API per la consultazione dei DD di un AOO variati alla data |
+| 22 | API per la consultazione dei DD di un ENTE variati alla data |
+| 23 | API per la consultazione dei DD di un UO variati alla data |
+| 24 | API per la consultazione delle PEC/RECAPITO di un AOO variate alla data |
+| 25 | API per la consultazione delle PEC/RECAPITO di un ENTE variate alla data |
+| 26 | API per la consultazione delle PEC/RECAPITO di un UO variate alla data |
+| 27 | API per la consultazione delle SFE di un ENTE variate alla data |
+| 28 | API per la consultazione delle UO variate alla data |
+| 29 | API per la consultazione delle UO di un ENTE variate alla data |
+| 30 | API per la consultazione degli ENTI variati alla data |
+| 31 | API per la consultazione degli indirizzi di un AOO variati alla data |
+| 32 | API per la consultazione degli indirizzi di un ENTE variati alla data |
+| 33 | API per la consultazione degli indirizzi di un UO variati alla data |
+| 34 | API per la consultazione dei rappresentanti di un AOO variati alla data |
+| 35 | API per la consultazione dei rappresentanti di un ENTE variati alla data |
+| 36 | API per la consultazione dei rappresentanti di un UO variati alla data |
+| 37 | API per la consultazione dell’elenco delle AOO alla data corrente  |
+| 38 | API per la consultazione dell’elenco delle ENTE alla data corrente  |
+| 39 | API per la consultazione dell’elenco delle UO alla data corrente  |
+| 40 | API per la consultazione unica di Ente, AOO e UO |

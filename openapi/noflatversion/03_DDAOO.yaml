@@ -26,7 +26,7 @@ servers:
 paths:
   /DDAOO/{codice_uni_aoo}:
     get:
-      description: consultazione dei domicili digitali delle AOO
+      description: consultazione dei domicili digitali di una AOO dato il codice unico della stessa
 
       operationId: getDDAOO
 
@@ -37,12 +37,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/CodiceUniAOO'
-
-          example: 12345678901
-            
+  
       responses:
         '200':
-          description: array JSON dei domicili digitali di una AOO
+          description: array dei domicili digitali di una AOO
           content:
             application/json:
               schema:
@@ -61,20 +59,23 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    $ref: './common/pathStatus.yaml'
+
+    
 components:
 
   responses:
     $ref: './common/response.yaml'
 
   schemas:
-   CodiceUniAOO:
+    CodiceUniAOO:
       $ref: './common/schemaCodiceUniAOO.yaml'
     
     DigitalAddress:
       $ref: './common/schemaDigitalAddress.yaml'
 
-    DDs:
-      description: array dei domicili digitali      
+    DDs:     
       type: array
       items:
         $ref: '#/components/schemas/DigitalAddress'

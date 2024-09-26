@@ -40,7 +40,6 @@ paths:
               - $ref: '#/components/schemas/CodiceIPA'
               - $ref: '#/components/schemas/CodiceUniAOO'
               - $ref: '#/components/schemas/CodiceUniUO'
-          example: 12345678901
             
       responses:
         '200':
@@ -65,6 +64,9 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
+
+  /status:
+    $ref: './common/pathStatus.yaml'
   
 components:
 

@@ -26,7 +26,7 @@ servers:
 paths:
   /DDAOOs/{date}:
     get:
-      description: consultazione degli aggiornamenti dei domicili digitali delle AOO
+      description: consultazione degli aggiornamenti dei domicili digitali delle AOO alla data
 
       operationId: getDDAOOs
 
@@ -41,7 +41,7 @@ paths:
 
       responses:
         '200':
-          description: elenco JSON dei domicili digitali delle AOO
+          description: elenco dei domicili digitali delle AOO aggiornati
           content:
             application/json:
               schema:
@@ -60,6 +60,9 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    $ref: '../common/pathStatus.yaml'
+    
 components:
 
   responses:

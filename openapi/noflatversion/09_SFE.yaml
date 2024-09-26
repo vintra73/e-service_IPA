@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione delle SFE degli ENTI
+    API rese disponibili da IPA per la consultazione delle SFE delle UO
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -26,22 +26,21 @@ servers:
 paths:
   /SFE/{codice_uni_uo}:
     get:
-      description: consultazione delle SFE dato il codice unico della UO
+      description: consultazione della SFE di una UO dato il codice unico della stessa
 
       operationId: getSFE
 
       parameters:
         - name: codice_uni_uo
           in: path
-          description: codice unico della UO per il quale si effettua la ricerca
+          description: Codice unico dell'UO
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceUniUO'
-          example: 12345678901
+            $ref: '#/components/schemas/CodiceUniUO'          
             
       responses:
         '200':
-          description: array JSON delle SFE
+          description: anagrafica della SFE di una UO
           content:
             application/json:
               schema:
@@ -59,7 +58,9 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    $ref: './common/pathStatus.yaml'  
   
 components:
 

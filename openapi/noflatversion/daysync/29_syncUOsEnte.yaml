@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per l'aggiornamento delle UO degli ENTI
+    PI rese disponibili da IPA per l'aggiornamento delle UO di un ENTE alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -26,18 +26,18 @@ servers:
 paths:
   /UOsEnteFromCF/{codice_fiscale}/{date}:
     get:
-      description: aggiornamenti delle UO
+      description: consultazione degli aggiornamenti delle UO di un Ente alla data
 
       operationId: getUOs
 
       parameters:
         - name: codice_fiscale
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice fiscale ENTE
           required: true
           schema:
             $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
+          
         - name: date
           in: path
           description: Data variazioni
@@ -48,7 +48,7 @@ paths:
            
       responses:
         '200':
-          description: array JSON delle UO di un ente
+          description: elenco delle UO aggiornate
           content:
             application/json:
               schema:
@@ -69,14 +69,14 @@ paths:
   
   /UOsEnteFromCodiceIPA/{codice_ipa}{date}:
     get:
-      description: aggiornamenti delle UO
+      description: consultazione degli aggiornamenti delle UO di un ENTE alla data
 
       operationId: getUOs
 
       parameters:
         - name: codice_ipa
           in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
+          description: Codice IPA dell'ENTE
           required: true
           schema:
             $ref: '#/components/schemas/CodiceIPA'
@@ -91,7 +91,7 @@ paths:
            
       responses:
         '200':
-          description: array JSON delle UO di un ente
+          description: elenco delle UO aggiornate
           content:
             application/json:
               schema:
@@ -110,105 +110,41 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    $ref: '../common/pathStatus.yaml' 
 
 components:
 
   responses:
-    '400':
-      description: BAD_REQUEST
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '401':
-      description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '404':
-      description: NOT_FOUND
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '500':
-      description: INTERNAL_SERVER_ERROR
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '503':
-      description: SERVICE_UNAVAILABLE
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    $ref: '../common/response.yaml'
 
   schemas:
     CodiceFiscaleEnte:
       $ref: '../common/schemaCodiceFiscaleEnte.yaml'
 
+    CodiceUniUO:
+      $ref: '../common/schemaCodiceUniUO.yaml'
+
+    UOs:
+      type: array
+      items:        
+        type: object
+        properties:       
+          UO:
+            $ref: '#/components/schemas/UO'             
+          operation:
+            $ref: '../common/schemaOperation.yaml'
+    UO:
+      $ref: '../common/schemaUO.yaml'
+
     CodiceIPA:
       $ref: '../common/schemaCodiceIPA.yaml'
 
-    UO:
-      $ref: '../common/schemaUO.yaml'
-    
-    UOs:
-      description: array delle UO      
-      type: array
-      items:
-        $ref: '#/components/schemas/UO'
-
-    Error: 
-      description: Modello di risposta in caso di errore     
-      required:
-        - status
-        - type
-      type: object
-      properties:
-        status:
-          type: string
-          description: Codice di errore
-          example: <HTTP_CODE>
-          enum:
-            - '400'
-            - '401'
-            - '403'
-            - '404'
-            - '500'
-            - '503'
-        type:
-          type: string
-          description: Tipologia di errore
-          example: <HTTP_STATUS>
-          enum:
-            - BAD_REQUEST
-            - UNAUTHORIZED
-            - FORBIDDEN
-            - NOT_FOUND
-            - INTERNAL_SERVER_ERROR
-            - SERVICE_UNAVAILABLE
-        detail:
-          type: string
-          description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
-      
+    Error:  
+      $ref: '../common/schemaError.yaml'      
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+    $ref: '../common/securitySchemes.yaml'
 
 security:
   - bearerAuth: []

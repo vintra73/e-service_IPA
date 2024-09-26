@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per la consultazione delle AOO alla data
+    API rese disponibili da IPA per la consultazione delle AOO correnti
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -24,24 +24,15 @@ servers:
     description: Server URL
 
 paths:
-  /AOOs/{date}:
+  /AOOs:
     get:
-      description: consultazione delle AOO
+      description: consultazione delle AOO correnti
       
-      operationId: getAOOs
-
-      parameters:
-        - name: date
-          in: path
-          description: Data variazioni
-          required: true
-          schema:
-            type: string
-            format: date
+      operationId: getAOOs    
             
       responses:
         '200':
-          description: elenco JSON delle AOO
+          description: elenco delle AOO correnti
           content:
             application/json:
               schema:
@@ -59,36 +50,29 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    $ref: '../common/pathStatus.yaml'
+
 components:
 
   responses:
     $ref: '../common/response.yaml'
 
-  schemas:
-    CodiceFiscaleEnte:
-      $ref: '../common/schemaCodiceFiscaleEnte.yaml'
-
-    CodiceIPA:
-      $ref: '../common/schemaCodiceIPA.yaml'
-
+  schemas:    
     CodiceUniAOO:
       $ref: '../common/schemaCodiceUniAOO.yaml'
 
-    AOOs:
-      description: elenco dei JSON degli ENTI
+    AOOs:      
       type: array
       items:
         type: object
         required:
-          - ente
-          - operation
+          - AOO          
         properties:
-          ente: 
+          AOO: 
             $ref: '#/components/schemas/AOO'
-          operation:  
-            $ref: '../common/schemaOperation.yaml'
-      
+          
     AOO:
       $ref: '../common/schemaAOO.yaml'
 

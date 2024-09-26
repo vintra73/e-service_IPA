@@ -26,22 +26,21 @@ servers:
 paths:
   /AOOEnteFromCF/{codice_fiscale}:
     get:
-      description: consultazione delle AOO di un ENTE dato il codice fiscale
+      description: consultazione delle AOO di un ENTE dato il codice fiscale dello stesso
 
       operationId: getAOOEnteFromCF
 
       parameters:
         - name: codice_fiscale
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice fiscale ENTE
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
+            $ref: '#/components/schemas/CodiceFiscaleEnte'          
             
       responses:
         '200':
-          description: array JSON delle AOO di un ente
+          description: array delle anagrafiche delle AOO di un ENTE
           content:
             application/json:
               schema:
@@ -62,7 +61,7 @@ paths:
   
   /AOOEnteFromCodiceIPA/{codice_ipa}:
     get:
-      description: consultazione delle AOO di un ENTE dato il codice ipa
+      description: consultazione delle AOO di un ENTE dato il codice ipa dello stesso
 
       operationId: getAOOEnteFromCodiceIPA
 
@@ -77,7 +76,7 @@ paths:
             
       responses:
         '200':
-          description: array JSON delle AOO di un ente
+          description: array delle anagrafiche delle AOO di un ENTE
           content:
             application/json:
               schema:
@@ -95,6 +94,9 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
+
+  /status:
+    $ref: './common/pathStatus.yaml'
   
 components:
 
@@ -111,8 +113,7 @@ components:
     AOO:
       $ref: './common/schemaAOO.yaml'
     
-    AOOs:
-      description: array delle AOO      
+    AOOs:      
       type: array
       items:
         $ref: '#/components/schemas/AOO'

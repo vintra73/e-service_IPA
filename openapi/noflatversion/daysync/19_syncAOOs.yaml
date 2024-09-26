@@ -26,7 +26,7 @@ servers:
 paths:
   /AOOs/{date}:
     get:
-      description: consultazione degli aggiornamenti delle AOO
+      description: consultazione degli aggiornamenti delle AOO alla data
       
       operationId: getAOOs
 
@@ -41,7 +41,7 @@ paths:
             
       responses:
         '200':
-          description: elenco JSON delle AOO
+          description: elenco delle AOO variate
           content:
             application/json:
               schema:
@@ -59,7 +59,10 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    $ref: '../common/pathStatus.yaml'
+
 components:
 
   responses:
@@ -75,16 +78,15 @@ components:
     CodiceUniAOO:
       $ref: '../common/schemaCodiceUniAOO.yaml'
 
-    AOOs:
-      description: elenco dei JSON degli ENTI
+    AOOs:      
       type: array
       items:
         type: object
         required:
-          - ente
+          - AOO
           - operation
         properties:
-          ente: 
+          AOO: 
             $ref: '#/components/schemas/AOO'
           operation:  
             $ref: '../common/schemaOperation.yaml'

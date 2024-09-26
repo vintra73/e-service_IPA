@@ -25,7 +25,7 @@ servers:
 paths:
   /indirizziAOOs/{date}:
     get:
-      description: consultazione degli aggiornamenti dell'indirizzo delle AOO
+      description: consultazione degli aggiornamenti degli indirizzi delle AOO alla data
 
       operationId: getIndirizzoAOO
 
@@ -40,7 +40,7 @@ paths:
 
       responses:
         '200':
-          description: elenco JSON indirizzi delle AOO
+          description: elenco degli indirizzi delle AOO aggiornati
           content:
             application/json:
               schema:
@@ -58,7 +58,9 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    $ref: '../common/pathStatus.yaml'  
  
 components:
 
@@ -72,6 +74,10 @@ components:
     Addresses:
       description: elenco indirizzi
       type: array
+      required:
+        - codice_uni_aoo
+        - address
+        - operation
       items:        
         type: object
         properties:       

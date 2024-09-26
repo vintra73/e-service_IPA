@@ -3,7 +3,7 @@ info:
   title: IPA - Indice Domicili Digitali delle PA e GPS
   
   description: |-
-    API rese disponibili da IPA per l'aggiornamento dei rappresentanti delle UO
+    API rese disponibili da IPA per la consultazione degli aggiornamenti dei rappresentanti delle UO alla specifica data
 
     Pattern Model applicati:
     - [ID_AUTH_CHANNEL_01] Direct Trust Transport-Level Security
@@ -60,136 +60,44 @@ paths:
         '503':
           $ref: '#/components/responses/503'
    
+  /status:
+    $ref: '../common/pathStatus.yaml'
+
 components:
 
   responses:
-    '400':
-      description: BAD_REQUEST
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '401':
-      description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '404':
-      description: NOT_FOUND
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '500':
-      description: INTERNAL_SERVER_ERROR
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '503':
-      description: SERVICE_UNAVAILABLE
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    $ref: '../common/response.yaml'
 
   schemas:
-    CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
-      type: string
-      pattern: ^([0-9]{11})$
-      example: 12345678901
-
-    Representatives:
-      description: elenco di rappresentati 
-      type: array
-      items:
-        $ref: '#/components/schemas/Representative'
+    CodiceUniUO:
+      $ref: '../common/schemaCodiceUniUO.yaml'
 
     Representative:
-      description: Rappresentate dell'ENTE
+      $ref: '../common/schemaRepresentative.yaml' 
+
+    Representatives:
+      description: elenco indirizzi
+      type: array
       required:
         - codice_uni_uo
-        - name
-        - surname
-        - role
+        - representative
         - operation
-        
-      type: object
-      properties:        
-        codice_uni_uo:
-          description: codice univoco dell'UO
-          type: string
-          maxLength: 6
-        name:
-          description: nome del rappresentate dell'ENTE
-          type: string
-          maxLength: 50        
-        surname:
-          description: conome del rappresentate dell'ENTE
-          type: string
-          maxLength: 50        
-        role:
-          description: ruolo del rappresente dell'ENTE
-          type: string
-          maxLength: 100   
-        operation:
-          type: string
-          maxLength: 1
-          enum:
-            - C
-            - U
-            - D      
+      items:        
+        type: object
+        properties:       
+          codice_uni_uo:
+            $ref: '#/components/schemas/CodiceUniUO'
+          representative:
+            $ref: '#/components/schemas/Representative'
+          operation:
+            $ref: '../common/schemaOperation.yaml'
 
-    Error: 
-      description: Modello di risposta in caso di errore     
-      required:
-        - status
-        - type
-      type: object
-      properties:
-        status:
-          type: string
-          description: Codice di errore
-          example: <HTTP_CODE>
-          enum:
-            - '400'
-            - '401'
-            - '403'
-            - '404'
-            - '500'
-            - '503'
-        type:
-          type: string
-          description: Tipologia di errore
-          example: <HTTP_STATUS>
-          enum:
-            - BAD_REQUEST
-            - UNAUTHORIZED
-            - FORBIDDEN
-            - NOT_FOUND
-            - INTERNAL_SERVER_ERROR
-            - SERVICE_UNAVAILABLE
-        detail:
-          type: string
-          description: Descrizione di dettaglio dello specifico problema verificatosi
-          example: <detail_error>
+    Error:  
+      $ref: '../common/schemaError.yaml'
       
     
   securitySchemes:
-    bearerAuth:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: |-
-        Implementazione conforme ad RFC8725.
+      $ref: '../common/securitySchemes.yaml'
 
 security:
   - bearerAuth: []

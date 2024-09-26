@@ -33,15 +33,14 @@ paths:
       parameters:
         - name: codice_fiscale
           in: path
-          description: Codice fiscale ENTE per il quale si effettua la ricerca
+          description: Codice fiscale ENTE 
           required: true
           schema:
             $ref: '#/components/schemas/CodiceFiscaleEnte'
-          example: 12345678901
             
       responses:
         '200':
-          description: JSON dell'ENTE estratto
+          description: anagrafica dell'ENTE 
           content:
             application/json:
               schema:
@@ -69,15 +68,14 @@ paths:
       parameters:
         - name: codice_ipa
           in: path
-          description: Codice IPA dell'ENTE per il quale si effettua la ricerca
+          description: Codice IPA dell'ENTE 
           required: true
           schema:
-            $ref: '#/components/schemas/CodiceIPA'
-          example: agid
+            $ref: '#/components/schemas/CodiceIPA'          
             
       responses:
         '200':
-          description: JSON dell'ENTE estratto
+          description: anagrafica dell'ENTE
           content:
             application/json:
               schema:
@@ -95,6 +93,9 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
+
+  /status:
+    $ref: './common/pathStatus.yaml'
   
 components:
 

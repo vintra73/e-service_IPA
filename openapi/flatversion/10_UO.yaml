@@ -103,7 +103,7 @@ components:
 
   schemas:
     CodiceFiscaleEnte:
-      description: Codice Fiscale dell'ENTE      
+      description: Codice Fiscale  
       type: string
       pattern: ^([0-9]{11})$
       example: 12345678901
@@ -114,7 +114,7 @@ components:
       maxLength: 6
 
     CodiceIPA:
-      description: codice IPA dell'ENTE
+      description: codice IPA
       type: string
       maxLength: 100
 

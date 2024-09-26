@@ -24,13 +24,19 @@ servers:
     description: Server URL
 
 paths:
-  /PECUOs/{date}:
+  /PECUOs/{codice_uni_uo}/{date}:
     get:
-      description: consultazione degli aggiornamenti delle PEC delle UO
+      description: consultazione degli aggiornamenti delle PEC di una UO alla data
 
       operationId: getPECUOs
 
       parameters:
+        - name: codice_uni_uo
+          in: path
+          description: Codice unico dell'UO
+          required: true
+          schema:
+            $ref: '#/components/schemas/CodiceUniUO'
         - name: date
           in: path
           description: Data variazioni
@@ -41,7 +47,7 @@ paths:
 
       responses:
         '200':
-          description: array JSON degli aggiornamenti delle PEC
+          description: elenco delle PEC degli UO aggiornate
           content:
             application/json:
               schema:
@@ -60,6 +66,9 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    $ref: '../common/pathStatus.yaml' 
+    
 components:
 
   responses:
@@ -73,7 +82,6 @@ components:
       $ref: '../common/schemaDigitalAddress.yaml'
 
     PECs:
-      description: array degli aggiornamenti delle PEC
       type: array
       items:        
         type: object

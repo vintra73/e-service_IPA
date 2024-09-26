@@ -36,13 +36,11 @@ paths:
           description: Codice unico dell'AOO
           required: true
           schema:
-            type: string
-            maxLength: 7
-          example: 12345678901
+            $ref: '#/components/schemas/CodiceUniAOO'
             
       responses:
         '200':
-          description: JSON del rappresentate estratto
+          description: rappresentate dell'AOO
           content:
             application/json:
               schema:
@@ -60,7 +58,10 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-   
+
+  /status:
+    $ref: './common/pathStatus.yaml'
+    
 components:
 
   responses:
@@ -69,6 +70,9 @@ components:
   schemas:
     CodiceFiscaleEnte:
       $ref: './common/schemaCodiceFiscaleEnte.yaml'
+    
+    CodiceUniAOO:
+      $ref: './common/schemaCodiceUniAOO.yaml'
 
     Representative:
       $ref: './common/schemaRepresentative.yaml'        

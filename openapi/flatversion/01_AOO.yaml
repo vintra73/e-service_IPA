@@ -26,7 +26,7 @@ servers:
 paths:
   /AOO/{codice_uni_aoo}:
     get:
-      description: consultazione delle AOO dato il codice unico delle stesse
+      description: consultazione di una AOO dato il codice unico della stessa
 
       operationId: getAOO
 
@@ -41,12 +41,35 @@ paths:
             
       responses:
         '200':
-          description: JSON della AOO
+          description: anagrafica della AOO
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AOO'
           
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+  /status:
+    get:      
+      description: Ritorna lo stato dell'e-service
+      operationId: getStatus
+      responses:
+        '200':
+          description: Il servizio funziona correttamente
+          content:
+            'application/problem+json':
+              schema:
+                type: boolean
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -102,7 +125,7 @@ components:
 
   schemas:   
     CodiceUniAOO:
-      description: Codice unico dell'AOO
+      description: Codice unico AOO
       type: string
       maxLength: 7
 
@@ -120,34 +143,40 @@ components:
         
       properties:
         codice_fiscale_ente:    
-          description: Codice Fiscale dell'ENTE      
+          description: Codice Fiscale  
           type: string
           pattern: ^([0-9]{11})$
           example: 12345678901
         codice_ipa_ente:    
-          description: codice IPA dell'ENTE
+          description: codice IPA
           type: string
           maxLength: 100
         codice_uni_aoo:
-          description: Codice unico dell'AOO
+          description: Codice unico AOO
           type: string
           maxLength: 7
         codice_aoo:
+          description: codice AOO
           type: string
           maxLength: 100
         descrizione_aoo:
+          description: descrizione AOO
           type: string
           maxLength: 1000
         api_protocollo_informatico:
+          description: flag relativo alla esposizione delle API per lo scambio di documenti protocollati tra AOO ai sensi delle LLGG Documento Informatico
           type: boolean
         URL_api_protocollo_informatico:
+          description: riferimento alle API esposte per lo scambio di documenti protocollati tra AOO ai sensi delle LLGG Documento Informatico
           type: string
           maxLength: 200
           pattern: ^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$
         data_istituzione:
+          description: data istituzione amministrativo della AOO
           type: string
           format: date 
         data_aggiornamento:
+          description: data ultimo aggiornamento amministrativo della AOO
           type: string
           format: date      
 

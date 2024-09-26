@@ -26,7 +26,7 @@ servers:
 paths:
   /DDUO/{codice_uni_uo}:
     get:
-      description: consultazione dei domicili digitali delle UO
+      description: consultazione dei domicili digitali di una UO dato il codice unico della stessa
 
       operationId: getDDUO
 
@@ -37,11 +37,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/CodiceUniUO'
-          example: 12345678901
             
       responses:
         '200':
-          description: array JSON dei domicili digitali di una UO
+          description: array dei domicili digitali di una UO
           content:
             application/json:
               schema:
@@ -60,6 +59,9 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
+  /status:
+    $ref: './common/pathStatus.yaml'
+
 components:
 
   responses:
@@ -72,8 +74,7 @@ components:
     DigitalAddress:
       $ref: './common/schemaDigitalAddress.yaml'
 
-    DDs:
-      description: array dei domicili digitali      
+    DDs:      
       type: array
       items:
         $ref: '#/components/schemas/DigitalAddress'

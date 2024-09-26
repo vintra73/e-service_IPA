@@ -41,7 +41,7 @@ paths:
       
       responses:
         '200':
-          description: elenco JSON dei domicili digitali degli ENTI
+          description: elenco dei domicili digitali degli ENTI aggiornati
           content:
             application/json:
               schema:
@@ -59,7 +59,10 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  
+
+  /status:
+    $ref: '../common/pathStatus.yaml'
+     
 components:
 
   responses:
@@ -75,8 +78,7 @@ components:
     DigitalAddress:
       $ref: '../common/schemaDigitalAddress.yaml'
     
-    DDs:
-      description: array degli aggiornamenti dei domicili digitali      
+    DDs:      
       type: array
       required:
         - codice_fiscale_ente
