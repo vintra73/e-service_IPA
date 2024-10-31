@@ -30,5 +30,3 @@ properties:
     description: nome della categoria dell'ENTE
     type: string
     maxLength: 140
-  pippo:
-    type: string
