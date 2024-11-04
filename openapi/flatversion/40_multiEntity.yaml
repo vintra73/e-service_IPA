@@ -24,13 +24,19 @@ servers:
     description: Server URL
 
 paths:
-  /Entity/{codice}:
+  /Entity/{typology}/{codice}:
     get:
       description: consultazione degli ENTI, AOO o UO dato il codice dell'entità (codice_ipa, codice_uni_aoo e codice_uni_uo)
 
       operationId: getEntity
 
       parameters:
+        - name: typology
+          in: path
+          description: Codice dell'entità
+          required: true
+          schema:
+            $ref: '#/components/schemas/Typology'
         - name: codice
           in: path
           description: Codice dell'entità
@@ -56,8 +62,6 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
         '500':
@@ -80,8 +84,6 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
         '500':
@@ -100,12 +102,6 @@ components:
             $ref: '#/components/schemas/Error'
     '401':
       description: UNAUTHORIZED
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    '403':
-      description: FORBIDDEN
       content:
         application/problem+json:
           schema:
@@ -178,8 +174,14 @@ components:
           description: nome della categoria dell'ENTE
           type: string
           maxLength: 140
-        pippo:
-          type: string
+
+    Typology:
+      type: string
+      enum:
+        - ente
+        - aoo
+        - uo
+
 
     typeEnte:
       type: object

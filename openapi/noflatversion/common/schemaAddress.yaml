@@ -1,4 +1,4 @@
-description: Indirizzo della AOO
+description: Indirizzo
 required:       
   - codice_istat_comune
   - codice_catastale_comune
@@ -8,18 +8,18 @@ required:
 type: object
 properties:        
   codice_istat_comune:
-    description: codice istat del Comune della sede dell'ENTE
+    description: codice istat 
     type: string
     maxLength: 6        
   codice_catastale_comune:
-    description: codice catastale del Comune della sede  dell'ENTE
+    description: codice catastale 
     type: string
     maxLength: 4        
   CAP:
-    description: CAP del Comune della sede dell'ENTE
+    description: CAP del Comune 
     type: string
     pattern: ^([0-9]{5})$
   address:
-    description: indirizzo della sede dell'ENTE
+    description: indirizzo della sede 
     type: string
     maxLength: 246
