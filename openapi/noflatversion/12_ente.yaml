@@ -105,9 +105,6 @@ components:
     CodiceIPA:
       $ref: './common/schemaCodiceIPA.yaml'
 
-    DigitalAddress:
-      $ref: './common/schemaDigitalAddress.yaml'
-    
     Ente:
       $ref: './common/schemaEnte.yaml'
         
