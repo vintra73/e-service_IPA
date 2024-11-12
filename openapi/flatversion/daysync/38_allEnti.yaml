@@ -138,10 +138,11 @@ components:
       required:
         - codice_fiscale_ente
         - codice_ipa_ente
-        - denomination
-        - category_type
-        - category_code
-        - category_name       
+        - denominazione_ente
+        - tipologia_categoria
+        - codice_categoria
+        - nome_categoria
+            
       type: object
       properties:
         codice_fiscale_ente:
@@ -150,19 +151,19 @@ components:
         codice_ipa_ente:
           description: codice IPA dell'ENTE
           $ref: '#/components/schemas/CodiceIPA'
-        denomination:
+        denominazione_ente:
           description: denominazione dell'ENTE
           type: string
           maxLength: 1000
-        category_type:
+        tipologia_categoria:
           description: tipologia della categoria dell'ENTE
           type: string
           maxLength: 140
-        category_code:
+        codice_categoria:
           description: codice della categoria dell'ENTE
           type: string
           maxLength: 5
-        category_name:
+        nome_categoria:
           description: nome della categoria dell'ENTE
           type: string
           maxLength: 140
