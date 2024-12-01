@@ -10,6 +10,12 @@
     application/problem+json:
       schema:
         $ref: '#/components/schemas/Error'
+'403':
+  description: FORBIDDEN
+  content:
+    application/problem+json:
+      schema:
+        $ref: '#/components/schemas/Error'
 '404':
   description: NOT_FOUND
   content:

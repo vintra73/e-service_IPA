@@ -57,6 +57,8 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
         '500':
@@ -77,6 +79,8 @@ paths:
                 type: boolean
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
         '503':
@@ -93,6 +97,12 @@ components:
             $ref: '#/components/schemas/Error'
     '401':
       description: UNAUTHORIZED
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: FORBIDDEN
       content:
         application/problem+json:
           schema:
