@@ -11,7 +11,7 @@ properties:
     type: string
     maxLength: 50        
   surname:
-    description: conome del rappresentate dell'ENTE
+    description: cognome del rappresentate dell'ENTE
     type: string
     maxLength: 50        
   role:

@@ -50,6 +50,8 @@ paths:
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
         '500':
@@ -70,6 +72,8 @@ paths:
                 type: boolean
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
         '503':
@@ -86,6 +90,12 @@ components:
             $ref: '#/components/schemas/Error'
     '401':
       description: UNAUTHORIZED
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: FORBIDDEN
       content:
         application/problem+json:
           schema:
@@ -113,7 +123,7 @@ components:
     CodiceFiscaleEnte:
       description: Codice Fiscale  
       type: string
-      pattern: ^([0-9]{11})$
+      pattern: ^([0-9]{11})|((?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z])$
       example: 12345678901
     
     CodiceUniAOO:
@@ -135,7 +145,7 @@ components:
           type: string
           maxLength: 50        
         surname:
-          description: conome del rappresentate dell'ENTE
+          description: cognome del rappresentate dell'ENTE
           type: string
           maxLength: 50        
         role:
