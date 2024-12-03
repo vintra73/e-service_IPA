@@ -135,6 +135,7 @@ components:
     CodiceIPA:
       description: codice IPA
       type: string
+      maxLength: 100
 
     CodiceUniAOO:
       description: Codice unico AOO
@@ -220,6 +221,7 @@ components:
         codice_ipa_ente:    
           description: codice IPA
           type: string
+          maxLength: 100
         codice_uni_aoo:
           description: Codice unico AOO
           type: string

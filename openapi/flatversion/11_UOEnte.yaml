@@ -164,6 +164,7 @@ components:
     CodiceIPA:
       description: codice IPA
       type: string
+      maxLength: 100
 
     CodiceUniUO:
       description: Codice unico dell'UO

@@ -134,6 +134,7 @@ components:
     CodiceIPA:
       description: codice IPA
       type: string
+      maxLength: 100
 
     UO:
       description: UO di un ENTE

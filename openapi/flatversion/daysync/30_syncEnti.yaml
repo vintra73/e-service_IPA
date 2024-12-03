@@ -130,6 +130,7 @@ components:
     CodiceIPA:
       description: codice IPA
       type: string
+      maxLength: 100
 
     DigitalAddress:
       description: e-mail conforme a local-part@domain previsto da rfc5322

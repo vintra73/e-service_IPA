@@ -191,6 +191,7 @@ components:
     CodiceIPA:
       description: codice IPA
       type: string
+      maxLength: 100
 
     Error:  
       description: Modello di risposta in caso di errore     

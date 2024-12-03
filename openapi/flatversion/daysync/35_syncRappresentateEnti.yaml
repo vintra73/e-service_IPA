@@ -132,6 +132,7 @@ components:
     CodiceIPA:
       description: codice IPA
       type: string
+      maxLength: 100
 
     Representative:
       description: Rappresentate 
