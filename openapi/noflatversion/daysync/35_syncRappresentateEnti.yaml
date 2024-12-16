@@ -78,7 +78,7 @@ components:
       $ref: '../common/schemaCodiceIPA.yaml'
 
     Representative:
-      $ref: '../common/schemaRepresentative.yaml' 
+      $ref: '../common/schemaRepresentativeEnte.yaml' 
 
     Representatives:
       description: elenco indirizzi
