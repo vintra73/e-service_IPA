@@ -28,7 +28,7 @@ paths:
     get:
       description: consultazione degli aggiornamenti dei rappresentati delgli ENTI alla data
 
-      operationId: getRappresentate
+      operationId: getRappresentante
 
       parameters:
         - name: date
@@ -135,26 +135,23 @@ components:
       maxLength: 100
 
     Representative:
-      description: Rappresentate 
+      description: rappresentante 
       required:
         - name
         - surname
-        - role
+      
         
       type: object
       properties:        
         name:
-          description: nome del rappresentate dell'ENTE
+          description: nome del rappresentante 
           type: string
           maxLength: 50        
         surname:
-          description: cognome del rappresentate dell'ENTE
+          description: cognome del rappresentante 
           type: string
           maxLength: 50        
-        role:
-          description: ruolo del rappresente dell'ENTE
-          type: string
-          maxLength: 100 
+       
 
     Representatives:
       description: elenco indirizzi

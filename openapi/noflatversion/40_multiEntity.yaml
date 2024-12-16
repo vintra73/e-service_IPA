@@ -79,7 +79,10 @@ components:
   responses:
     $ref: './common/response.yaml'
 
-  schemas:   
+  schemas: 
+    CodiceFiscaleEnte:
+      $ref: './common/schemaCodiceFiscaleEnte.yaml'  
+      
     CodiceIPA:
       $ref: './common/schemaCodiceIPA.yaml'
 

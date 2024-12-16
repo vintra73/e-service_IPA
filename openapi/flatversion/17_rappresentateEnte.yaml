@@ -24,11 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateEnteFromCF/{codice_fiscale}:
+  /rappresentanteEnteFromCF/{codice_fiscale}:
     get:
       description: consultazione del reppresentate di un ENTE dato il codice fiscale
 
-      operationId: getRappresentateFromCF
+      operationId: getRappresentanteFromCF
 
       parameters:
         - name: codice_fiscale
@@ -40,7 +40,7 @@ paths:
             
       responses:
         '200':
-          description: rappresentate dell'ENTE
+          description: rappresentante dell'ENTE
           content:
             application/json:
               schema:
@@ -59,11 +59,11 @@ paths:
         '503':
           $ref: '#/components/responses/503'
   
-  /rappresentateEnteFromCodiceIPA/{codice_ipa}:
+  /rappresentanteEnteFromCodiceIPA/{codice_ipa}:
     get:
       description: consultazione del reppresentate di un ENTE dato il codice ipa
 
-      operationId: getRappresentateFromCodiceIPA
+      operationId: getRappresentanteFromCodiceIPA
 
       parameters:
         - name: codice_ipa
@@ -75,7 +75,7 @@ paths:
             
       responses:
         '200':
-          description: rappresentate dell'ENTE
+          description: rappresentante dell'ENTE
           content:
             application/json:
               schema:
@@ -167,7 +167,7 @@ components:
       maxLength: 100
 
     Representative:
-      description: Rappresentate 
+      description: rappresentante 
       required:
         - name
         - surname
@@ -176,11 +176,11 @@ components:
       type: object
       properties:        
         name:
-          description: nome del rappresentate dell'ENTE
+          description: nome del rappresentante dell'ENTE
           type: string
           maxLength: 50        
         surname:
-          description: cognome del rappresentate dell'ENTE
+          description: cognome del rappresentante dell'ENTE
           type: string
           maxLength: 50        
         role:

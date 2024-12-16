@@ -28,7 +28,7 @@ paths:
     get:
       description: consultazione degli aggiornamenti dei rappresentati delgli ENTI alla data
 
-      operationId: getRappresentate
+      operationId: getRappresentante
 
       parameters:
         - name: date
