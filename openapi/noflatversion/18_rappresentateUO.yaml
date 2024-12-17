@@ -24,11 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateUO/{codice_uni_uo}:
+  /rappresentanteUO/{codice_uni_uo}:
     get:
       description: consultazione del reppresentate di una UO
 
-      operationId: getRappresentate
+      operationId: getRappresentante
 
       parameters:
         - name: codice_uni_uo

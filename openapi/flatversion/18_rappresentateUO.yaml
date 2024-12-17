@@ -24,11 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateUO/{codice_uni_uo}:
+  /rappresentanteUO/{codice_uni_uo}:
     get:
       description: consultazione del reppresentate di una UO
 
-      operationId: getRappresentate
+      operationId: getRappresentante
 
       parameters:
         - name: codice_uni_uo
@@ -126,26 +126,23 @@ components:
       maxLength: 6
 
     Representative:
-      description: Rappresentate 
+      description: rappresentante 
       required:
         - name
         - surname
-        - role
+      
         
       type: object
       properties:        
         name:
-          description: nome del rappresentate dell'ENTE
+          description: nome del rappresentante 
           type: string
           maxLength: 50        
         surname:
-          description: cognome del rappresentate dell'ENTE
+          description: cognome del rappresentante 
           type: string
           maxLength: 50        
-        role:
-          description: ruolo del rappresente dell'ENTE
-          type: string
-          maxLength: 100        
+              
 
     Error:
       description: Modello di risposta in caso di errore     

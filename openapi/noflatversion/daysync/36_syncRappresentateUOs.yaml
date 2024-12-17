@@ -28,7 +28,7 @@ paths:
     get:
       description: consultazione del reppresentate delle UO
 
-      operationId: getRappresentateUO
+      operationId: getRappresentanteUO
 
       parameters:
         - name: date

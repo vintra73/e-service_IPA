@@ -24,11 +24,11 @@ servers:
     description: Server URL
 
 paths:
-  /rappresentateAOO/{codice_uni_aoo}:
+  /rappresentanteAOO/{codice_uni_aoo}:
     get:
       description: consultazione del reppresentate di una AOO
 
-      operationId: getRappresentate
+      operationId: getRappresentante
 
       parameters:
         - name: codice_uni_aoo
@@ -40,7 +40,7 @@ paths:
             
       responses:
         '200':
-          description: rappresentate dell'AOO
+          description: rappresentante dell'AOO
           content:
             application/json:
               schema:

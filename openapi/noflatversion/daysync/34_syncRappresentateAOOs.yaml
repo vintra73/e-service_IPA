@@ -29,7 +29,7 @@ paths:
     get:
       description: consultazione degli aggiornamenti dei rappresentati delle AOO alla data
 
-      operationId: getRappresentateAOO
+      operationId: getRappresentanteAOO
 
       parameters:
         - name: date
